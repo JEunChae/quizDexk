@@ -1,5 +1,5 @@
 'use client'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { drawCards } from '@/lib/algorithms/card-draw'
 import { createExamSession, startExam, answerCard, tickTimer } from '@/lib/algorithms/exam-state'
@@ -21,6 +21,8 @@ export default function TestPage() {
   const [session, setSession] = useState<ExamSession | null>(null)
   const [dbSessionId, setDbSessionId] = useState<string | null>(null)
   const [mcqOptions, setMcqOptions] = useState<string[]>([])
+  const [submitting, setSubmitting] = useState(false)
+  const endedRef = useRef(false)
 
   useEffect(() => {
     async function init() {
@@ -43,17 +45,40 @@ export default function TestPage() {
     setSession(s => s ? tickTimer(s) : s)
   }, [])
 
-  async function handleAnswer(isCorrect: boolean) {
-    if (!session || !dbSessionId) return
-    const card = session.cards[session.currentIndex]
-    await supabase.from('card_results').insert({ card_id: card.id, session_id: dbSessionId, is_correct: isCorrect })
-    const next = answerCard(session, card.id, isCorrect)
-    if (next.state === 'completed') {
-      await supabase.from('study_sessions').update({ ended_at: new Date().toISOString() }).eq('id', dbSessionId)
-    } else {
-      setMcqOptions(generateMCQOptions(next.cards[next.currentIndex], cards))
+  useEffect(() => {
+    if (!session || session.state !== 'completed' || !dbSessionId || endedRef.current) return
+    endedRef.current = true
+
+    const answeredIds = new Set(session.results.map(r => r.card_id))
+    const unanswered = session.cards.filter(c => !answeredIds.has(c.id))
+
+    async function finalize() {
+      await supabase.from('study_sessions')
+        .update({ ended_at: new Date().toISOString() })
+        .eq('id', dbSessionId!)
+      if (unanswered.length > 0) {
+        await supabase.from('card_results').insert(
+          unanswered.map(c => ({ card_id: c.id, session_id: dbSessionId!, is_correct: false }))
+        )
+      }
     }
-    setSession(next)
+    finalize()
+  }, [session?.state, dbSessionId, supabase])
+
+  async function handleAnswer(isCorrect: boolean) {
+    if (!session || !dbSessionId || submitting) return
+    setSubmitting(true)
+    try {
+      const card = session.cards[session.currentIndex]
+      await supabase.from('card_results').insert({ card_id: card.id, session_id: dbSessionId, is_correct: isCorrect })
+      const next = answerCard(session, card.id, isCorrect)
+      if (next.state !== 'completed') {
+        setMcqOptions(generateMCQOptions(next.cards[next.currentIndex], cards))
+      }
+      setSession(next)
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   if (!session || cards.length === 0) return <p className="text-center p-8">로딩 중...</p>
@@ -82,8 +107,14 @@ export default function TestPage() {
       <p className="text-xl font-medium text-center py-8">{card.front}</p>
       <div className="grid grid-cols-2 gap-3">
         {mcqOptions.map(opt => (
-          <button key={opt} onClick={() => handleAnswer(opt === card.back)}
-            className="p-4 rounded-lg border hover:bg-gray-50 text-left">{opt}</button>
+          <button
+            key={opt}
+            onClick={() => handleAnswer(opt === card.back)}
+            disabled={submitting}
+            className="p-4 rounded-lg border hover:bg-gray-50 text-left disabled:opacity-50"
+          >
+            {opt}
+          </button>
         ))}
       </div>
     </main>

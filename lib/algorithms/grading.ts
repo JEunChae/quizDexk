@@ -1,4 +1,4 @@
-import type { Card, CardResult } from '@/types/database'
+import type { Card } from '@/types/database'
 
 function fisherYates<T>(arr: T[]): T[] {
   const a = [...arr]
@@ -22,7 +22,7 @@ export function generateMCQOptions(card: Card, allCards: Card[], count = 4): str
   return fisherYates([...distractors, card.back])
 }
 
-export function calculateScore(results: CardResult[]): {
+export function calculateScore(results: Array<{ is_correct: boolean }>): {
   total: number; correct: number; incorrect: number; score: number
 } {
   const total = results.length

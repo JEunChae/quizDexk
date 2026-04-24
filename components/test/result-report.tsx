@@ -1,4 +1,4 @@
-import type { Card, CardResult } from '@/types/database'
+import type { Card } from '@/types/database'
 import { calculateScore } from '@/lib/algorithms/grading'
 
 export function ResultReport({ cards, results, onRetry, onBack }: {
@@ -7,8 +7,7 @@ export function ResultReport({ cards, results, onRetry, onBack }: {
   onRetry: () => void
   onBack: () => void
 }) {
-  const mapped = results.map(r => ({ ...r, id: r.card_id, session_id: '', answered_at: '' } as CardResult))
-  const { total, correct, incorrect, score } = calculateScore(mapped)
+  const { total, correct, incorrect, score } = calculateScore(results)
   const wrongCards = cards.filter(c => results.find(r => r.card_id === c.id && !r.is_correct))
 
   return (
