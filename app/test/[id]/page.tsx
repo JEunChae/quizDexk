@@ -29,9 +29,10 @@ export default function TestPage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
       const { data: cardsData } = await supabase.from('cards').select('*').eq('set_id', setId)
+      const drawn = drawCards(cardsData ?? [], [], { shuffle: true })
+      if (drawn.length === 0) { router.push(`/sets/${setId}`); return }
       const { data: sess } = await supabase.from('study_sessions')
         .insert({ user_id: user.id, set_id: setId, mode: 'exam' }).select().single()
-      const drawn = drawCards(cardsData ?? [], [], { shuffle: true })
       setCards(drawn)
       setDbSessionId(sess?.id ?? null)
       const examSess = startExam(createExamSession(drawn, TIME_LIMIT))
@@ -66,7 +67,7 @@ export default function TestPage() {
   }, [session, dbSessionId, supabase])
 
   async function handleAnswer(isCorrect: boolean) {
-    if (!session || !dbSessionId || submitting) return
+    if (!session || !dbSessionId || submitting || session.state === 'completed') return
     setSubmitting(true)
     try {
       const card = session.cards[session.currentIndex]
