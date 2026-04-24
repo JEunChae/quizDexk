@@ -10,6 +10,7 @@ export interface FlashSet {
   tags: string[]
   is_public: boolean
   created_at: string
+  updated_at: string
 }
 
 export interface Card {
@@ -19,6 +20,7 @@ export interface Card {
   back: string
   difficulty: Difficulty
   created_at: string
+  updated_at: string
 }
 
 export interface StudySession {
@@ -43,4 +45,5 @@ export interface Bookmark {
   user_id: string
   card_id: string | null
   set_id: string | null
+  created_at: string
 }
