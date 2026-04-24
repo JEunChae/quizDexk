@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import type { ReactNode } from 'react'
+import Link from 'next/link'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -6,18 +8,18 @@ export const metadata: Metadata = {
   description: '플래시카드 기반 학습 앱',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ko">
       <body>
         <nav className="border-b px-6 py-3 flex items-center justify-between">
-          <a href="/dashboard" className="font-bold text-lg text-blue-600">quizDeck</a>
+          <Link href="/dashboard" className="font-bold text-lg text-blue-600">quizDeck</Link>
           <div className="flex gap-4 text-sm">
-            <a href="/dashboard" className="hover:text-blue-600">내 단어장</a>
-            <a href="/history" className="hover:text-blue-600">학습 기록</a>
+            <Link href="/dashboard" className="hover:text-blue-600">내 단어장</Link>
+            <Link href="/history" className="hover:text-blue-600">학습 기록</Link>
           </div>
         </nav>
-        {children}
+        <main>{children}</main>
       </body>
     </html>
   )
