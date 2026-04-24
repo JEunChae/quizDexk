@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 
@@ -8,14 +9,17 @@ export function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    setIsLoading(true)
+    setError(null)
     const supabase = createClient()
     const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) { setError(error.message); return }
-    router.push('/dashboard')
+    if (error) { setError(error.message); setIsLoading(false); return }
     router.refresh()
+    router.push('/dashboard')
   }
 
   return (
@@ -32,11 +36,14 @@ export function LoginForm() {
         placeholder="비밀번호" required
         className="w-full border rounded px-3 py-2"
       />
-      <button type="submit" className="w-full bg-blue-600 text-white rounded px-3 py-2">
-        로그인
+      <button
+        type="submit" disabled={isLoading}
+        className="w-full bg-blue-600 text-white rounded px-3 py-2 disabled:opacity-50"
+      >
+        {isLoading ? '로그인 중...' : '로그인'}
       </button>
       <p className="text-sm text-center">
-        계정이 없으신가요? <a href="/signup" className="text-blue-600">회원가입</a>
+        계정이 없으신가요? <Link href="/signup" className="text-blue-600">회원가입</Link>
       </p>
     </form>
   )
