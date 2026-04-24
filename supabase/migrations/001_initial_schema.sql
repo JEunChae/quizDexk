@@ -48,7 +48,8 @@ create table bookmarks (
   user_id uuid references auth.users(id) on delete cascade not null,
   card_id uuid references cards(id) on delete cascade,
   set_id uuid references sets(id) on delete cascade,
-  created_at timestamptz default now()
+  created_at timestamptz default now(),
+  constraint bookmarks_target_required check (card_id is not null or set_id is not null)
 );
 
 -- RLS 활성화
@@ -60,15 +61,23 @@ alter table bookmarks enable row level security;
 
 -- sets RLS
 create policy "Users own their sets"
-  on sets for all using (auth.uid() = user_id);
+  on sets for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
 create policy "Public sets visible to all"
   on sets for select using (is_public = true);
 
 -- cards RLS (set owner or public set)
 create policy "Cards visible to set owner"
-  on cards for all using (
+  on cards for all
+  using (
+    exists (select 1 from sets where sets.id = cards.set_id and sets.user_id = auth.uid())
+  )
+  with check (
     exists (select 1 from sets where sets.id = cards.set_id and sets.user_id = auth.uid())
   );
+
 create policy "Cards visible if set is public"
   on cards for select using (
     exists (select 1 from sets where sets.id = cards.set_id and sets.is_public = true)
@@ -76,13 +85,23 @@ create policy "Cards visible if set is public"
 
 -- study_sessions, card_results, bookmarks: own rows only
 create policy "Users own their sessions"
-  on study_sessions for all using (auth.uid() = user_id);
+  on study_sessions for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
 create policy "Users own their results"
-  on card_results for all using (
+  on card_results for all
+  using (
+    exists (select 1 from study_sessions where study_sessions.id = card_results.session_id and study_sessions.user_id = auth.uid())
+  )
+  with check (
     exists (select 1 from study_sessions where study_sessions.id = card_results.session_id and study_sessions.user_id = auth.uid())
   );
+
 create policy "Users own their bookmarks"
-  on bookmarks for all using (auth.uid() = user_id);
+  on bookmarks for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
 
 -- updated_at trigger function
 create or replace function update_updated_at()
