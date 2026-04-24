@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useMemo } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { drawCards } from '@/lib/algorithms/card-draw'
 import { Flashcard } from '@/components/learn/flashcard'
@@ -10,13 +10,14 @@ import Link from 'next/link'
 export default function LearnPage() {
   const { id: setId } = useParams<{ id: string }>()
   const router = useRouter()
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
 
   const [cards, setCards] = useState<Card[]>([])
   const [index, setIndex] = useState(0)
   const [sessionId, setSessionId] = useState<string | null>(null)
   const [done, setDone] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
     async function init() {
@@ -43,24 +44,29 @@ export default function LearnPage() {
       setLoading(false)
     }
     init()
-  }, [setId])
+  }, [setId, supabase])
 
   const handleResult = useCallback(async (isCorrect: boolean) => {
-    if (!sessionId || !cards[index]) return
-    await supabase.from('card_results').insert({
-      card_id: cards[index].id,
-      session_id: sessionId,
-      is_correct: isCorrect,
-    })
-    if (index + 1 >= cards.length) {
-      await supabase.from('study_sessions')
-        .update({ ended_at: new Date().toISOString() })
-        .eq('id', sessionId)
-      setDone(true)
-    } else {
-      setIndex(i => i + 1)
+    if (!sessionId || !cards[index] || submitting) return
+    setSubmitting(true)
+    try {
+      await supabase.from('card_results').insert({
+        card_id: cards[index].id,
+        session_id: sessionId,
+        is_correct: isCorrect,
+      })
+      if (index + 1 >= cards.length) {
+        await supabase.from('study_sessions')
+          .update({ ended_at: new Date().toISOString() })
+          .eq('id', sessionId)
+        setDone(true)
+      } else {
+        setIndex(i => i + 1)
+      }
+    } finally {
+      setSubmitting(false)
     }
-  }, [sessionId, cards, index])
+  }, [sessionId, cards, index, submitting, supabase])
 
   if (loading) return (
     <div className="flex items-center justify-center min-h-screen">
@@ -81,7 +87,7 @@ export default function LearnPage() {
       <p className="text-gray-500">총 {cards.length}개 카드를 학습했습니다.</p>
       <div className="flex gap-3">
         <button
-          onClick={() => { setIndex(0); setDone(false) }}
+          onClick={() => router.push(`/learn/${setId}`)}
           className="bg-blue-600 text-white rounded px-4 py-2"
         >
           다시 학습

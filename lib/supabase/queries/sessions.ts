@@ -13,12 +13,17 @@ export async function createSession(userId: string, setId: string, mode: StudyMo
 
 export async function endSession(sessionId: string): Promise<void> {
   const supabase = await createClient()
-  await supabase.from('study_sessions').update({ ended_at: new Date().toISOString() }).eq('id', sessionId)
+  const { error } = await supabase
+    .from('study_sessions')
+    .update({ ended_at: new Date().toISOString() })
+    .eq('id', sessionId)
+  if (error) throw error
 }
 
 export async function saveCardResult(result: Omit<CardResult, 'id' | 'answered_at'>): Promise<void> {
   const supabase = await createClient()
-  await supabase.from('card_results').insert(result)
+  const { error } = await supabase.from('card_results').insert(result)
+  if (error) throw error
 }
 
 export async function getResultsBySet(userId: string, setId: string): Promise<CardResult[]> {
