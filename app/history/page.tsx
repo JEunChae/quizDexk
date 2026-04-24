@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getUserSessions } from '@/lib/supabase/queries/progress'
 import { HistoryList } from '@/components/progress/history-list'
@@ -5,7 +6,8 @@ import { HistoryList } from '@/components/progress/history-list'
 export default async function HistoryPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  const sessions = await getUserSessions(user!.id)
+  if (!user) redirect('/login')
+  const sessions = await getUserSessions(user.id)
 
   return (
     <main className="max-w-3xl mx-auto p-6">
