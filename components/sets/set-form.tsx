@@ -18,9 +18,12 @@ export function SetForm({ defaultValues, onSubmit, submitLabel = '저장' }: Set
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setIsLoading(true)
-    const tags = tagsInput.split(',').map(t => t.trim()).filter(Boolean)
-    await onSubmit({ title, folder: folder || null, tags, is_public: isPublic })
-    setIsLoading(false)
+    try {
+      const tags = tagsInput.split(',').map(t => t.trim()).filter(Boolean)
+      await onSubmit({ title, folder: folder || null, tags, is_public: isPublic })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
