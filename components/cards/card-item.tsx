@@ -16,11 +16,16 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
   const [editing, setEditing] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
 
+  const [deleteError, setDeleteError] = useState<string | null>(null)
+
   async function handleDelete() {
     if (!confirm('이 카드를 삭제하시겠습니까?')) return
     setIsDeleting(true)
+    setDeleteError(null)
     try {
       await onDelete(card.id)
+    } catch (err) {
+      setDeleteError(err instanceof Error ? err.message : '삭제에 실패했습니다')
     } finally {
       setIsDeleting(false)
     }
@@ -29,7 +34,6 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
   if (editing) {
     return (
       <CardForm
-        setId={card.set_id}
         defaultValues={card}
         onSave={async (values) => { await onUpdate(card.id, values); setEditing(false) }}
         onCancel={() => setEditing(false)}
@@ -46,14 +50,17 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
           {difficultyLabel[card.difficulty]}
         </span>
       </div>
-      <div className="flex gap-2 ml-4 shrink-0">
-        <button onClick={() => setEditing(true)} className="text-blue-600 text-sm">수정</button>
-        <button
-          onClick={handleDelete} disabled={isDeleting}
-          className="text-red-500 text-sm disabled:opacity-50"
-        >
-          {isDeleting ? '삭제 중...' : '삭제'}
-        </button>
+      <div className="flex gap-2 ml-4 shrink-0 flex-col items-end">
+        <div className="flex gap-2">
+          <button onClick={() => setEditing(true)} className="text-blue-600 text-sm">수정</button>
+          <button
+            onClick={handleDelete} disabled={isDeleting}
+            className="text-red-500 text-sm disabled:opacity-50"
+          >
+            {isDeleting ? '삭제 중...' : '삭제'}
+          </button>
+        </div>
+        {deleteError && <p className="text-red-500 text-xs">{deleteError}</p>}
       </div>
     </div>
   )

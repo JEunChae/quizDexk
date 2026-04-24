@@ -51,7 +51,7 @@ export default async function SetDetailPage({ params }: { params: Promise<{ id: 
         ))}
       </div>
       <h2 className="font-semibold mb-2">카드 추가</h2>
-      <CardForm setId={id} onSave={handleAddCard} />
+      <CardForm onSave={handleAddCard} />
     </main>
   )
 }

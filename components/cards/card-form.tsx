@@ -3,24 +3,27 @@ import { useState } from 'react'
 import type { Card, Difficulty } from '@/types/database'
 
 interface CardFormProps {
-  setId: string
   onSave: (values: Pick<Card, 'front' | 'back' | 'difficulty'>) => Promise<void>
   defaultValues?: Partial<Card>
   onCancel?: () => void
 }
 
-export function CardForm({ setId, onSave, defaultValues, onCancel }: CardFormProps) {
+export function CardForm({ onSave, defaultValues, onCancel }: CardFormProps) {
   const [front, setFront] = useState(defaultValues?.front ?? '')
   const [back, setBack] = useState(defaultValues?.back ?? '')
   const [difficulty, setDifficulty] = useState<Difficulty>(defaultValues?.difficulty ?? 'medium')
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setIsLoading(true)
+    setError(null)
     try {
       await onSave({ front, back, difficulty })
       if (!defaultValues) { setFront(''); setBack(''); setDifficulty('medium') }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '저장에 실패했습니다')
     } finally {
       setIsLoading(false)
     }
@@ -28,6 +31,7 @@ export function CardForm({ setId, onSave, defaultValues, onCancel }: CardFormPro
 
   return (
     <form onSubmit={handleSubmit} className="space-y-2 border rounded p-4">
+      {error && <p className="text-red-500 text-sm">{error}</p>}
       <input value={front} onChange={e => setFront(e.target.value)}
         placeholder="앞면" required className="w-full border rounded px-3 py-2" />
       <input value={back} onChange={e => setBack(e.target.value)}
