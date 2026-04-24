@@ -22,6 +22,10 @@ describe('calculateProgress', () => {
     const results = cards.map(c => makeResult(c.id, true))
     expect(calculateProgress(cards, results)).toBe(100)
   })
+  it('counts duplicate card results as one answered', () => {
+    const results = [makeResult('1', true), makeResult('1', false)]
+    expect(calculateProgress(cards, results)).toBe(25)
+  })
 })
 
 describe('getReviewPriority', () => {
