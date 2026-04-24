@@ -37,4 +37,15 @@ describe('drawCards', () => {
     const result = drawCards(cards, [], { bookmarkedIds: new Set(['1', '3']) })
     expect(result.map(c => c.id).sort()).toEqual(['1', '3'])
   })
+
+  it('wrongFirst + shuffle keeps wrong partition before correct partition', () => {
+    const results = [makeResult('1', false), makeResult('2', false)]
+    const wrongSet = new Set(['1', '2'])
+    for (let i = 0; i < 30; i++) {
+      const result = drawCards(cards, results, { wrongFirst: true, shuffle: true })
+      const firstCorrectIndex = result.findIndex(c => !wrongSet.has(c.id))
+      const lastWrongIndex = result.map(c => wrongSet.has(c.id)).lastIndexOf(true)
+      expect(lastWrongIndex).toBeLessThan(firstCorrectIndex)
+    }
+  })
 })

@@ -22,11 +22,11 @@ export function drawCards(cards: Card[], results: CardResult[], options: DrawOpt
 
   if (options.wrongFirst) {
     const wrongIds = new Set(results.filter(r => !r.is_correct).map(r => r.card_id))
-    pool.sort((a, b) => {
-      const aW = wrongIds.has(a.id) ? 0 : 1
-      const bW = wrongIds.has(b.id) ? 0 : 1
-      return aW - bW
-    })
+    const wrong = pool.filter(c => wrongIds.has(c.id))
+    const rest = pool.filter(c => !wrongIds.has(c.id))
+    return options.shuffle
+      ? [...fisherYates(wrong), ...fisherYates(rest)]
+      : [...wrong, ...rest]
   }
 
   return options.shuffle ? fisherYates(pool) : pool
