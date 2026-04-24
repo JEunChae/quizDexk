@@ -63,7 +63,7 @@ export default function TestPage() {
       }
     }
     finalize()
-  }, [session?.state, dbSessionId, supabase])
+  }, [session, dbSessionId, supabase])
 
   async function handleAnswer(isCorrect: boolean) {
     if (!session || !dbSessionId || submitting) return
