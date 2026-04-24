@@ -21,6 +21,19 @@ describe('generateMCQOptions', () => {
     const opts = generateMCQOptions(cards[0], cards)
     expect(new Set(opts).size).toBe(4)
   })
+  it('deduplicates by back value', () => {
+    const dupeCards = [
+      makeCard('a', 'apple'), makeCard('b', 'apple'), makeCard('c', 'banana'), makeCard('d', 'cherry')
+    ]
+    const opts = generateMCQOptions(dupeCards[0], dupeCards)
+    expect(new Set(opts).size).toBe(opts.length)
+  })
+  it('handles fewer than 4 available distractors gracefully', () => {
+    const fewCards = [makeCard('a', 'apple'), makeCard('b', 'banana')]
+    const opts = generateMCQOptions(fewCards[0], fewCards)
+    expect(opts).toContain('apple')
+    expect(new Set(opts).size).toBe(opts.length)
+  })
 })
 
 describe('calculateScore', () => {
