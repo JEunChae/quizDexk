@@ -33,6 +33,13 @@ export default function LearnPage() {
           .eq('study_sessions.set_id', setId),
       ])
 
+      await supabase
+        .from('study_sessions')
+        .update({ ended_at: new Date().toISOString() })
+        .eq('user_id', user.id)
+        .eq('set_id', setId)
+        .is('ended_at', null)
+
       const { data: session } = await supabase
         .from('study_sessions')
         .insert({ user_id: user.id, set_id: setId, mode: 'flip' })

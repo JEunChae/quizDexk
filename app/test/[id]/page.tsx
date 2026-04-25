@@ -31,6 +31,14 @@ export default function TestPage() {
       const { data: cardsData } = await supabase.from('cards').select('*').eq('set_id', setId)
       const drawn = drawCards(cardsData ?? [], [], { shuffle: true })
       if (drawn.length === 0) { router.push(`/sets/${setId}`); return }
+
+      await supabase
+        .from('study_sessions')
+        .update({ ended_at: new Date().toISOString() })
+        .eq('user_id', user.id)
+        .eq('set_id', setId)
+        .is('ended_at', null)
+
       const { data: sess } = await supabase.from('study_sessions')
         .insert({ user_id: user.id, set_id: setId, mode: 'exam' }).select().single()
       setCards(drawn)
