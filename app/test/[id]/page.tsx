@@ -23,6 +23,7 @@ export default function TestPage() {
   const [mcqOptions, setMcqOptions] = useState<string[]>([])
   const [submitting, setSubmitting] = useState(false)
   const endedRef = useRef(false)
+  const submittingCardIdRef = useRef<string | null>(null)
 
   useEffect(() => {
     async function init() {
@@ -59,6 +60,7 @@ export default function TestPage() {
     endedRef.current = true
 
     const answeredIds = new Set(session.results.map(r => r.card_id))
+    if (submittingCardIdRef.current) answeredIds.add(submittingCardIdRef.current)
     const unanswered = session.cards.filter(c => !answeredIds.has(c.id))
 
     async function finalize() {
@@ -77,8 +79,9 @@ export default function TestPage() {
   async function handleAnswer(isCorrect: boolean) {
     if (!session || !dbSessionId || submitting || session.state === 'completed') return
     setSubmitting(true)
+    const card = session.cards[session.currentIndex]
+    submittingCardIdRef.current = card.id
     try {
-      const card = session.cards[session.currentIndex]
       await supabase.from('card_results').insert({ card_id: card.id, session_id: dbSessionId, is_correct: isCorrect })
       const next = answerCard(session, card.id, isCorrect)
       if (next.state !== 'completed') {
@@ -86,6 +89,7 @@ export default function TestPage() {
       }
       setSession(next)
     } finally {
+      submittingCardIdRef.current = null
       setSubmitting(false)
     }
   }
