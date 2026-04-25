@@ -29,7 +29,7 @@ export function answerCard(session: ExamSession, cardId: string, isCorrect: bool
 }
 
 export function tickTimer(session: ExamSession): ExamSession {
-  if (session.state === 'completed') return session
+  if (session.state !== 'running') return session
   const timeRemaining = Math.max(0, session.timeRemaining - 1)
   const state = timeRemaining === 0 ? 'completed' : session.state
   return { ...session, timeRemaining, state }

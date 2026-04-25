@@ -53,6 +53,6 @@ describe('exam state machine', () => {
   it('idle session does not start timer on tick', () => {
     const session = tickTimer(createExamSession(cards, 5))
     expect(session.state).toBe('idle')
-    expect(session.timeRemaining).toBe(4)
+    expect(session.timeRemaining).toBe(5)
   })
 })
