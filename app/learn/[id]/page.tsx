@@ -22,7 +22,7 @@ export default function LearnPage() {
   useEffect(() => {
     async function init() {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
+      if (!user) { setLoading(false); router.push('/login'); return }
 
       const [{ data: cardsData }, { data: prevResults }] = await Promise.all([
         supabase.from('cards').select('*').eq('set_id', setId),

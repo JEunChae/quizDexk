@@ -27,7 +27,7 @@ export default function TestPage() {
   useEffect(() => {
     async function init() {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
+      if (!user) { router.push('/login'); return }
       const { data: cardsData } = await supabase.from('cards').select('*').eq('set_id', setId)
       const drawn = drawCards(cardsData ?? [], [], { shuffle: true })
       if (drawn.length === 0) { router.push(`/sets/${setId}`); return }
