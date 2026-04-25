@@ -1,5 +1,9 @@
 import { getSetById } from '@/lib/supabase/queries/sets'
 import { getCardsBySetId, createCard, updateCard, deleteCard } from '@/lib/supabase/queries/cards'
+import { getResultsBySet } from '@/lib/supabase/queries/sessions'
+import { createClient } from '@/lib/supabase/server'
+import { calculateProgress } from '@/lib/algorithms/progress'
+import { ProgressBar } from '@/components/progress/progress-bar'
 import { CardItem } from '@/components/cards/card-item'
 import { CardForm } from '@/components/cards/card-form'
 import Link from 'next/link'
@@ -8,8 +12,17 @@ import { revalidatePath } from 'next/cache'
 
 export default async function SetDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const [set, cards] = await Promise.all([getSetById(id), getCardsBySetId(id)])
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  const [set, cards, results] = await Promise.all([
+    getSetById(id),
+    getCardsBySetId(id),
+    user ? getResultsBySet(user.id, id) : Promise.resolve([]),
+  ])
   if (!set) notFound()
+
+  const progress = calculateProgress(cards, results)
 
   async function handleAddCard(values: Pick<import('@/types/database').Card, 'front' | 'back' | 'difficulty'>) {
     'use server'
@@ -41,7 +54,13 @@ export default async function SetDetailPage({ params }: { params: Promise<{ id: 
           <Link href={`/test/${set.id}`} className="bg-orange-600 text-white rounded px-3 py-1 text-sm">시험</Link>
         </div>
       </div>
-      <p className="text-gray-500 mb-4">{cards.length}개 카드</p>
+      <div className="mb-4">
+        <div className="flex justify-between text-sm text-gray-500 mb-1">
+          <span>{cards.length}개 카드</span>
+          <span>학습 진도 {progress}%</span>
+        </div>
+        <ProgressBar value={progress} />
+      </div>
       <div className="space-y-3 mb-8">
         {cards.map(card => (
           <CardItem key={card.id} card={card}
