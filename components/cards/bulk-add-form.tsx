@@ -6,17 +6,24 @@ import { useMemo } from 'react'
 
 type ParsedCard = { front: string; back: string }
 
+function parseCSVField(s: string): string {
+  s = s.trim()
+  if (s.startsWith('"') && s.endsWith('"')) return s.slice(1, -1).replace(/""/g, '"')
+  return s
+}
+
 function parseCSV(text: string): ParsedCard[] {
   return text
     .split('\n')
     .map(line => line.trim())
     .filter(Boolean)
     .flatMap(line => {
-      // CSV: "앞면","뒷면" or 앞면,뒷면
-      const match = line.match(/^"?([^",]+)"?\s*,\s*"?([^",]+)"?$/)
+      // RFC 4180: 따옴표 필드(내부 쉼표 허용) or 일반 필드
+      const match = line.match(/^("(?:[^"]|"")*"|[^,]+),("(?:[^"]|"")*"|.+)$/)
       if (!match) return []
-      const [, front, back] = match
-      return front.trim() && back.trim() ? [{ front: front.trim(), back: back.trim() }] : []
+      const front = parseCSVField(match[1])
+      const back = parseCSVField(match[2])
+      return front && back ? [{ front, back }] : []
     })
 }
 
