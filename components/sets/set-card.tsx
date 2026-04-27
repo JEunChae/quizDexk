@@ -38,7 +38,7 @@ export function SetCard({ set, onUpdate, onDelete }: Props) {
   }
 
   return (
-    <div className="group flex flex-col bg-white rounded-2xl border border-slate-200 hover:shadow-md hover:border-indigo-200 transition-all">
+    <div className="group flex flex-col min-h-[8rem] bg-white rounded-2xl border border-slate-200 hover:shadow-md hover:border-indigo-200 transition-all">
       <Link href={`/sets/${set.id}`} className="flex-1 block p-5 pb-3">
         <h2 className="font-semibold text-slate-700 text-lg">{set.title}</h2>
         {set.folder && <p className="text-sm text-slate-500 mt-0.5">{set.folder}</p>}
