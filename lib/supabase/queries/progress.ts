@@ -11,7 +11,14 @@ export async function getUserSessions(userId: string): Promise<SessionWithSet[]>
     .eq('user_id', userId)
     .order('started_at', { ascending: false })
   if (error) throw error
-  return (data ?? []).map(s => ({ ...s, set_title: (s.sets as { title: string } | null)?.title ?? null }))
+  const mapped = (data ?? []).map(s => ({ ...s, set_title: (s.sets as { title: string } | null)?.title ?? null }))
+  const seen = new Set<string>()
+  return mapped.filter(s => {
+    const key = `${s.set_id}_${s.mode === 'exam' ? 'exam' : 'learn'}`
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
 }
 
 export async function getResultsBySession(sessionId: string): Promise<CardResult[]> {

@@ -5,8 +5,9 @@ import { drawCards } from '@/lib/algorithms/card-draw'
 import { Flashcard } from '@/components/learn/flashcard'
 import { MCQCard } from '@/components/learn/mcq-card'
 import { ShortAnswerCard } from '@/components/learn/short-answer-card'
-import type { Card, StudyMode } from '@/types/database'
-import { useParams, useRouter } from 'next/navigation'
+import { useSessionSize } from '@/hooks/use-session-size'
+import type { Card, CardResult, StudyMode } from '@/types/database'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
 const MODES: { value: StudyMode; label: string; desc: string }[] = [
@@ -18,9 +19,13 @@ const MODES: { value: StudyMode; label: string; desc: string }[] = [
 export default function LearnPage() {
   const { id: setId } = useParams<{ id: string }>()
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const resumeSessionId = searchParams.get('session')
   const supabase = useMemo(() => createClient(), [])
+  const [sessionSize, setSessionSize] = useSessionSize()
 
   const [allCards, setAllCards] = useState<Card[]>([])
+  const [prevResults, setPrevResults] = useState<CardResult[]>([])
   const [cards, setCards] = useState<Card[]>([])
   const [index, setIndex] = useState(0)
   const [sessionId, setSessionId] = useState<string | null>(null)
@@ -34,27 +39,38 @@ export default function LearnPage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { setLoading(false); router.push('/login'); return }
 
-      const [{ data: cardsData }, { data: prevResults }] = await Promise.all([
-        supabase.from('cards').select('*').eq('set_id', setId),
-        supabase
+      const { data: cardsData } = await supabase.from('cards').select('*').eq('set_id', setId)
+      const all = cardsData ?? []
+      setAllCards(all)
+
+      if (resumeSessionId) {
+        const [{ data: sessionResults }, { data: sessionData }] = await Promise.all([
+          supabase.from('card_results').select('card_id').eq('session_id', resumeSessionId),
+          supabase.from('study_sessions').select('mode').eq('id', resumeSessionId).single(),
+        ])
+        const answeredIds = new Set((sessionResults ?? []).map(r => r.card_id))
+        const remaining = all.filter(c => !answeredIds.has(c.id))
+        setCards(remaining)
+        setSessionId(resumeSessionId)
+        setMode((sessionData?.mode as StudyMode) ?? 'flip')
+      } else {
+        const { data: results } = await supabase
           .from('card_results')
           .select('*, study_sessions!inner(user_id, set_id)')
           .eq('study_sessions.user_id', user.id)
-          .eq('study_sessions.set_id', setId),
-      ])
-
-      const all = cardsData ?? []
-      const drawn = drawCards(all, prevResults ?? [], { wrongFirst: true })
-      setAllCards(all)
-      setCards(drawn)
+          .eq('study_sessions.set_id', setId)
+        setPrevResults(results ?? [])
+      }
       setLoading(false)
     }
     init()
-  }, [setId, supabase])
+  }, [setId, supabase, resumeSessionId])
 
   async function startSession(selectedMode: StudyMode) {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
+
+    const drawn = drawCards(allCards, prevResults, { wrongFirst: true, limit: sessionSize })
 
     await supabase
       .from('study_sessions')
@@ -68,6 +84,7 @@ export default function LearnPage() {
       .insert({ user_id: user.id, set_id: setId, mode: selectedMode })
       .select().single()
 
+    setCards(drawn)
     setSessionId(session?.id ?? null)
     setMode(selectedMode)
     setIndex(0)
@@ -102,9 +119,9 @@ export default function LearnPage() {
     </div>
   )
 
-  if (cards.length === 0) return (
+  if (!loading && (resumeSessionId ? cards.length === 0 : allCards.length === 0)) return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-      <p className="text-slate-500">카드가 없습니다.</p>
+      <p className="text-slate-500">{resumeSessionId ? '이어할 카드가 없습니다. 학습이 완료됐어요!' : '카드가 없습니다.'}</p>
       <Link href={`/sets/${setId}`} className="text-indigo-600 hover:underline font-medium">세트로 돌아가기</Link>
     </div>
   )
@@ -113,9 +130,9 @@ export default function LearnPage() {
     <main className="max-w-lg mx-auto px-6 py-8">
       <div className="flex justify-between items-center mb-8">
         <Link href={`/sets/${setId}`} className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">← 세트로</Link>
-        <p className="text-sm text-slate-500">카드 {cards.length}개</p>
+        <p className="text-sm text-slate-500">전체 {allCards.length}개 · 세션 {sessionSize}개</p>
       </div>
-      <h2 className="text-xl font-semibold text-indigo-700 mb-6 text-center">학습 모드 선택</h2>
+      <h2 className="text-xl font-semibold text-indigo-700 mb-5 text-center">학습 모드 선택</h2>
       <div className="space-y-3">
         {MODES.map(m => (
           <button
@@ -141,12 +158,12 @@ export default function LearnPage() {
         <p className="text-slate-500 mt-2">총 {cards.length}개 카드를 학습했습니다.</p>
         <div className="flex gap-3 mt-6 justify-center">
           <button
-            onClick={() => { setMode(null); setSessionId(null) }}
+            onClick={() => { setMode(null); setSessionId(null); setCards([]) }}
             className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl px-4 py-2 font-medium transition-colors"
           >
             다시 학습
           </button>
-          <Link href={`/sets/${setId}`} className="border border-slate-200 hover:bg-slate-50 rounded-xl px-4 py-2 text-slate-700 transition-colors">세트로 돌아가기</Link>
+          <Link href={`/sets/${setId}`} className="bg-white border border-slate-200 hover:bg-slate-50 rounded-xl px-4 py-2 text-slate-700 transition-colors">세트로 돌아가기</Link>
         </div>
       </div>
     </div>

@@ -42,7 +42,7 @@ export function ResultReport({ cards, results, onRetry, onBack }: {
       )}
       <div className="flex gap-3 justify-center">
         <button onClick={onRetry} className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl px-4 py-2 font-medium transition-colors">다시 시험</button>
-        <button onClick={onBack} className="border border-slate-200 hover:bg-slate-50 rounded-xl px-4 py-2 text-slate-700 transition-colors">세트로 돌아가기</button>
+        <button onClick={onBack} className="bg-white border border-slate-200 hover:bg-slate-50 rounded-xl px-4 py-2 text-slate-700 transition-colors">세트로 돌아가기</button>
       </div>
     </div>
   )

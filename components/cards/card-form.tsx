@@ -56,7 +56,7 @@ export function CardForm({ onSave, defaultValues, onCancel }: CardFormProps) {
           {isLoading ? '저장 중...' : '저장'}
         </button>
         {onCancel && (
-          <button type="button" onClick={onCancel} className="border border-slate-200 hover:bg-slate-50 rounded-xl px-4 py-2 text-slate-600 transition-colors">취소</button>
+          <button type="button" onClick={onCancel} className="bg-white border border-slate-200 hover:bg-slate-50 rounded-xl px-4 py-2 text-slate-600 transition-colors">취소</button>
         )}
       </div>
     </form>

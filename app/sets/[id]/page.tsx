@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import { calculateProgress } from '@/lib/algorithms/progress'
 import { ProgressBar } from '@/components/progress/progress-bar'
 import { SetDetailSections } from '@/components/sets/set-detail-sections'
+import { SessionSizeControl } from '@/components/sets/session-size-control'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
@@ -65,6 +66,7 @@ export default async function SetDetailPage({ params }: { params: Promise<{ id: 
           <span>학습 진도 {progress}%</span>
         </div>
         <ProgressBar value={progress} />
+        <SessionSizeControl totalCards={cards.length} />
       </div>
       <SetDetailSections
         cards={cards}

@@ -8,14 +8,18 @@ import { ExamTimer } from '@/components/test/exam-timer'
 import { ResultReport } from '@/components/test/result-report'
 import type { Card } from '@/types/database'
 import type { ExamSession } from '@/lib/algorithms/exam-state'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { useSessionSize } from '@/hooks/use-session-size'
 
 const TIME_LIMIT = 300
 
 export default function TestPage() {
   const { id: setId } = useParams<{ id: string }>()
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const resumeSessionId = searchParams.get('session')
   const supabase = useMemo(() => createClient(), [])
+  const [sessionSize] = useSessionSize()
 
   const [cards, setCards] = useState<Card[]>([])
   const [session, setSession] = useState<ExamSession | null>(null)
@@ -30,26 +34,39 @@ export default function TestPage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { router.push('/login'); return }
       const { data: cardsData } = await supabase.from('cards').select('*').eq('set_id', setId)
-      const drawn = drawCards(cardsData ?? [], [], { shuffle: true })
+      const all = cardsData ?? []
+
+      let drawn: Card[]
+      let sessId: string | null
+
+      if (resumeSessionId) {
+        const { data: sessionResults } = await supabase
+          .from('card_results').select('card_id').eq('session_id', resumeSessionId)
+        const answeredIds = new Set((sessionResults ?? []).map(r => r.card_id))
+        drawn = all.filter(c => !answeredIds.has(c.id))
+        sessId = resumeSessionId
+      } else {
+        drawn = drawCards(all, [], { shuffle: true, limit: sessionSize })
+        await supabase
+          .from('study_sessions')
+          .update({ ended_at: new Date().toISOString() })
+          .eq('user_id', user.id)
+          .eq('set_id', setId)
+          .is('ended_at', null)
+        const { data: sess } = await supabase.from('study_sessions')
+          .insert({ user_id: user.id, set_id: setId, mode: 'exam' }).select().single()
+        sessId = sess?.id ?? null
+      }
+
       if (drawn.length === 0) { router.push(`/sets/${setId}`); return }
-
-      await supabase
-        .from('study_sessions')
-        .update({ ended_at: new Date().toISOString() })
-        .eq('user_id', user.id)
-        .eq('set_id', setId)
-        .is('ended_at', null)
-
-      const { data: sess } = await supabase.from('study_sessions')
-        .insert({ user_id: user.id, set_id: setId, mode: 'exam' }).select().single()
       setCards(drawn)
-      setDbSessionId(sess?.id ?? null)
+      setDbSessionId(sessId)
       const examSess = startExam(createExamSession(drawn, TIME_LIMIT))
       setSession(examSess)
       if (drawn[0]) setMcqOptions(generateMCQOptions(drawn[0], drawn))
     }
     init()
-  }, [setId, supabase])
+  }, [setId, supabase, resumeSessionId])
 
   const handleTick = useCallback(() => {
     setSession(s => s ? tickTimer(s) : s)
@@ -130,7 +147,7 @@ export default function TestPage() {
             key={opt}
             onClick={() => handleAnswer(opt === card.back)}
             disabled={submitting}
-            className="p-4 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 text-left text-slate-900 disabled:opacity-50 transition-all"
+            className="p-4 rounded-xl border border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50 text-left text-slate-900 disabled:opacity-50 transition-all"
           >
             {opt}
           </button>

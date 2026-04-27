@@ -37,12 +37,12 @@ export function MCQCard({ card, allCards, onResult }: {
             disabled={submitting}
             className={`p-4 rounded-xl border text-left transition-all ${
               selected === null
-                ? 'border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 text-slate-900'
+                ? 'bg-white border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 text-slate-900'
                 : opt === card.back
                   ? 'border-emerald-500 bg-emerald-50 text-emerald-800'
                   : opt === selected
                     ? 'border-rose-500 bg-rose-50 text-rose-800'
-                    : 'opacity-50 border-slate-200 text-slate-900'
+                    : 'bg-white opacity-50 border-slate-200 text-slate-900'
             }`}
           >
             {opt}
