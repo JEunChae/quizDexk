@@ -1,9 +1,24 @@
-import { getUserSets } from '@/lib/supabase/queries/sets'
+import { getUserSets, updateSet, deleteSet } from '@/lib/supabase/queries/sets'
 import { SetCard } from '@/components/sets/set-card'
 import Link from 'next/link'
+import { revalidatePath } from 'next/cache'
+import type { FlashSet } from '@/types/database'
 
 export default async function DashboardPage() {
   const sets = await getUserSets()
+
+  async function handleUpdateSet(id: string, values: Pick<FlashSet, 'title' | 'folder' | 'tags' | 'is_public'>) {
+    'use server'
+    await updateSet(id, values)
+    revalidatePath('/dashboard')
+  }
+
+  async function handleDeleteSet(id: string) {
+    'use server'
+    await deleteSet(id)
+    revalidatePath('/dashboard')
+  }
+
   return (
     <main className="max-w-5xl mx-auto px-6 py-8">
       <div className="flex justify-between items-center mb-8">
@@ -26,7 +41,14 @@ export default async function DashboardPage() {
         )
         : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {sets.map(set => <SetCard key={set.id} set={set} />)}
+            {sets.map(set => (
+              <SetCard
+                key={set.id}
+                set={set}
+                onUpdate={handleUpdateSet}
+                onDelete={handleDeleteSet}
+              />
+            ))}
           </div>
         )
       }
