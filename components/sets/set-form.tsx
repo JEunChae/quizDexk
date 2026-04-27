@@ -30,13 +30,13 @@ export function SetForm({ defaultValues, onSubmit, submitLabel = '저장' }: Set
     <form onSubmit={handleSubmit} className="space-y-4 max-w-lg">
       <input value={title} onChange={e => setTitle(e.target.value)}
         placeholder="세트 이름" required
-        className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
+        className="w-full border border-slate-200 rounded-xl px-4 py-2.5 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
       <input value={folder} onChange={e => setFolder(e.target.value)}
         placeholder="폴더 (선택)"
-        className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
+        className="w-full border border-slate-200 rounded-xl px-4 py-2.5 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
       <input value={tagsInput} onChange={e => setTagsInput(e.target.value)}
         placeholder="태그 (쉼표 구분)"
-        className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
+        className="w-full border border-slate-200 rounded-xl px-4 py-2.5 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
       <label className="flex items-center gap-2 text-slate-700 text-sm cursor-pointer">
         <input type="checkbox" checked={isPublic} onChange={e => setIsPublic(e.target.checked)} className="rounded" />
         공개 세트

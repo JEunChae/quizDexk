@@ -116,7 +116,7 @@ export function BulkAddForm({ setId }: { setId: string }) {
             onChange={e => handleTextChange(e.target.value)}
             placeholder={"apple : 사과\nbanana : 바나나\ncherry : 체리"}
             rows={8}
-            className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono resize-none"
+            className="w-full border border-slate-200 rounded-xl px-4 py-3 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono resize-none"
           />
         </div>
       )}

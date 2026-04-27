@@ -41,7 +41,7 @@ export function ShortAnswerCard({ card, onResult }: {
           required
           autoFocus
           disabled={submitting}
-          className={`flex-1 border rounded-xl px-4 py-2.5 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 transition-all ${
+          className={`flex-1 border rounded-xl px-4 py-2.5 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 transition-all ${
             checked === true ? 'border-emerald-500 bg-emerald-50 focus:ring-emerald-500' :
             checked === false ? 'border-rose-500 bg-rose-50 focus:ring-rose-500' :
             'border-slate-200 focus:ring-indigo-500'

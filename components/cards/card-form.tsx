@@ -38,12 +38,12 @@ export function CardForm({ onSave, defaultValues, onCancel }: CardFormProps) {
       )}
       <input value={front} onChange={e => setFront(e.target.value)}
         placeholder="앞면" required
-        className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
+        className="w-full border border-slate-200 rounded-xl px-4 py-2.5 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
       <input value={back} onChange={e => setBack(e.target.value)}
         placeholder="뒷면" required
-        className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
+        className="w-full border border-slate-200 rounded-xl px-4 py-2.5 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" />
       <select value={difficulty} onChange={e => setDifficulty(e.target.value as Difficulty)}
-        className="border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+        className="border border-slate-200 rounded-xl px-4 py-2.5 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
         <option value="easy">쉬움</option>
         <option value="medium">보통</option>
         <option value="hard">어려움</option>
