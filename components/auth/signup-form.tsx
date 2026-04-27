@@ -40,12 +40,12 @@ export function SignupForm() {
       <input
         type="email" value={email} onChange={e => setEmail(e.target.value)}
         placeholder="이메일" required
-        className="w-full border rounded px-3 py-2"
+        className="w-full border rounded px-3 py-2 text-gray-900 placeholder:text-gray-400"
       />
       <input
         type="password" value={password} onChange={e => setPassword(e.target.value)}
         placeholder="비밀번호 (6자 이상)" required minLength={6}
-        className="w-full border rounded px-3 py-2"
+        className="w-full border rounded px-3 py-2 text-gray-900 placeholder:text-gray-400"
       />
       <button
         type="submit" disabled={isLoading}
