@@ -10,7 +10,7 @@ interface SetFormProps {
 
 export function SetForm({ defaultValues, onSubmit, submitLabel = '저장' }: SetFormProps) {
   const [title, setTitle] = useState(defaultValues?.title ?? '')
-  const [folder, setFolder] = useState(defaultValues?.folder ?? '')
+
   const [tagsInput, setTagsInput] = useState(defaultValues?.tags?.join(', ') ?? '')
   const [isPublic, setIsPublic] = useState(defaultValues?.is_public ?? false)
   const [isLoading, setIsLoading] = useState(false)
@@ -20,7 +20,7 @@ export function SetForm({ defaultValues, onSubmit, submitLabel = '저장' }: Set
     setIsLoading(true)
     try {
       const tags = tagsInput.split(',').map(t => t.trim()).filter(Boolean)
-      await onSubmit({ title, folder: folder || null, tags, is_public: isPublic })
+      await onSubmit({ title, folder: null, tags, is_public: isPublic })
     } finally {
       setIsLoading(false)
     }
@@ -35,11 +35,6 @@ export function SetForm({ defaultValues, onSubmit, submitLabel = '저장' }: Set
         <label className={labelCls}>세트 이름 *</label>
         <input value={title} onChange={e => setTitle(e.target.value)}
           placeholder="예) 영어 단어 1단원" required className={inputCls} />
-      </div>
-      <div>
-        <label className={labelCls}>폴더</label>
-        <input value={folder} onChange={e => setFolder(e.target.value)}
-          placeholder="예) 영어" className={inputCls} />
       </div>
       <div>
         <label className={labelCls}>태그</label>
