@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { getUserSessions } from '@/lib/supabase/queries/progress'
+import { getUserSessions, type SessionWithSet } from '@/lib/supabase/queries/progress'
 import { HistoryList } from '@/components/progress/history-list'
 
 export default async function HistoryPage() {

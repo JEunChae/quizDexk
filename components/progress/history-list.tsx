@@ -1,8 +1,8 @@
-import type { StudySession } from '@/types/database'
+import type { SessionWithSet } from '@/lib/supabase/queries/progress'
 
 const modeLabel: Record<string, string> = { flip: '카드 뒤집기', mcq: '객관식', short_answer: '주관식', exam: '시험' }
 
-export function HistoryList({ sessions }: { sessions: StudySession[] }) {
+export function HistoryList({ sessions }: { sessions: SessionWithSet[] }) {
   if (sessions.length === 0) return (
     <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center">
       <p className="text-slate-500">학습 기록이 없습니다.</p>
@@ -14,7 +14,10 @@ export function HistoryList({ sessions }: { sessions: StudySession[] }) {
       {sessions.map(s => (
         <div key={s.id} className="bg-white rounded-xl border border-slate-200 p-4 flex justify-between items-center hover:shadow-sm transition-all">
           <div>
-            <p className="font-medium text-slate-900">{modeLabel[s.mode] ?? s.mode}</p>
+            {s.set_title && (
+              <p className="text-xs text-indigo-600 font-medium mb-0.5">{s.set_title}</p>
+            )}
+            <p className="font-medium text-slate-700">{modeLabel[s.mode] ?? s.mode}</p>
             <p className="text-sm text-slate-500 mt-0.5">{new Date(s.started_at).toLocaleString('ko-KR')}</p>
           </div>
           {s.ended_at && (
