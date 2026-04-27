@@ -30,7 +30,7 @@ export function SignupForm() {
         <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <span className="text-2xl">📬</span>
         </div>
-        <h1 className="text-xl font-semibold text-slate-900">이메일을 확인해주세요</h1>
+        <h1 className="text-xl font-semibold text-slate-700">이메일을 확인해주세요</h1>
         <p className="text-slate-500 text-sm">{email}로 인증 링크를 보냈습니다.</p>
       </div>
     )
@@ -39,11 +39,11 @@ export function SignupForm() {
   return (
     <div className="w-full max-w-sm">
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-slate-900">quizDeck</h1>
+        <h1 className="text-3xl font-bold text-indigo-700">quizDeck</h1>
         <p className="text-slate-500 mt-2 text-sm">플래시카드로 스마트하게 학습하세요</p>
       </div>
       <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 space-y-4">
-        <h2 className="text-xl font-semibold text-slate-900">회원가입</h2>
+        <h2 className="text-xl font-semibold text-slate-700">회원가입</h2>
         {error && (
           <div className="bg-rose-50 border border-rose-200 rounded-xl px-4 py-3">
             <p className="text-rose-600 text-sm">{error}</p>

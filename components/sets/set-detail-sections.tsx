@@ -50,7 +50,7 @@ export function SetDetailSections({ cards, setId, onUpdate, onDelete, onDeleteAl
             onClick={() => toggle('cards')}
             className="flex-1 flex justify-between items-center hover:text-indigo-600 transition-colors text-left"
           >
-            <span className="font-semibold text-slate-900">카드 목록</span>
+            <span className="font-semibold text-slate-700">카드 목록</span>
             <div className="flex items-center gap-2">
               <span className="text-sm text-slate-400 font-medium">{cards.length}개</span>
               <ChevronDown open={open === 'cards'} />
@@ -85,7 +85,7 @@ export function SetDetailSections({ cards, setId, onUpdate, onDelete, onDeleteAl
           onClick={() => toggle('add')}
           className="w-full flex justify-between items-center px-5 py-4 hover:bg-slate-50 transition-colors"
         >
-          <span className="font-semibold text-slate-900">카드 추가</span>
+          <span className="font-semibold text-slate-700">카드 추가</span>
           <ChevronDown open={open === 'add'} />
         </button>
         {open === 'add' && (
@@ -101,7 +101,7 @@ export function SetDetailSections({ cards, setId, onUpdate, onDelete, onDeleteAl
           onClick={() => toggle('bulk')}
           className="w-full flex justify-between items-center px-5 py-4 hover:bg-slate-50 transition-colors"
         >
-          <span className="font-semibold text-slate-900">대량 추가</span>
+          <span className="font-semibold text-slate-700">대량 추가</span>
           <ChevronDown open={open === 'bulk'} />
         </button>
         {open === 'bulk' && (

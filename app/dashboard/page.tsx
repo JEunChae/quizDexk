@@ -8,7 +8,7 @@ export default async function DashboardPage() {
     <main className="max-w-5xl mx-auto px-6 py-8">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">내 단어장</h1>
+          <h1 className="text-3xl font-bold text-indigo-700">내 단어장</h1>
           <p className="text-slate-500 text-sm mt-1">플래시카드 세트를 관리하세요</p>
         </div>
         <Link

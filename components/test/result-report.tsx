@@ -29,7 +29,7 @@ export function ResultReport({ cards, results, onRetry, onBack }: {
       </div>
       {wrongCards.length > 0 && (
         <div>
-          <h3 className="font-semibold text-slate-900 mb-3">오답 목록</h3>
+          <h3 className="font-semibold text-slate-700 mb-3">오답 목록</h3>
           <div className="space-y-2">
             {wrongCards.map(c => (
               <div key={c.id} className="bg-white border border-slate-200 rounded-xl p-4 text-sm">

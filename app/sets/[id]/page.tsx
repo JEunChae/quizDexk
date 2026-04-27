@@ -52,7 +52,7 @@ export default async function SetDetailPage({ params }: { params: Promise<{ id: 
       <div className="flex justify-between items-center mb-6">
         <div>
           <Link href="/dashboard" className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">← 내 단어장</Link>
-          <h1 className="text-2xl font-bold text-slate-900 mt-1">{set.title}</h1>
+          <h1 className="text-2xl font-bold text-indigo-700 mt-1">{set.title}</h1>
         </div>
         <div className="flex gap-3">
           <Link href={`/learn/${set.id}`} className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl px-4 py-2 text-sm font-medium transition-colors">학습</Link>

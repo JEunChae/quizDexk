@@ -115,7 +115,7 @@ export default function LearnPage() {
         <Link href={`/sets/${setId}`} className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">← 세트로</Link>
         <p className="text-sm text-slate-500">카드 {cards.length}개</p>
       </div>
-      <h2 className="text-xl font-bold text-slate-900 mb-6 text-center">학습 모드 선택</h2>
+      <h2 className="text-xl font-semibold text-indigo-700 mb-6 text-center">학습 모드 선택</h2>
       <div className="space-y-3">
         {MODES.map(m => (
           <button
@@ -123,7 +123,7 @@ export default function LearnPage() {
             onClick={() => startSession(m.value)}
             className="w-full bg-white border-2 border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 rounded-2xl p-5 text-left transition-all"
           >
-            <p className="font-semibold text-slate-900">{m.label}</p>
+            <p className="font-semibold text-slate-700">{m.label}</p>
             <p className="text-sm text-slate-500 mt-1">{m.desc}</p>
           </button>
         ))}
@@ -137,7 +137,7 @@ export default function LearnPage() {
         <div className="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <span className="text-2xl">✓</span>
         </div>
-        <h2 className="text-2xl font-bold text-slate-900">학습 완료!</h2>
+        <h2 className="text-2xl font-bold text-indigo-700">학습 완료!</h2>
         <p className="text-slate-500 mt-2">총 {cards.length}개 카드를 학습했습니다.</p>
         <div className="flex gap-3 mt-6 justify-center">
           <button

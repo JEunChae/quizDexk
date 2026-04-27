@@ -5,7 +5,7 @@ export function SetCard({ set }: { set: FlashSet }) {
   return (
     <Link href={`/sets/${set.id}`}
       className="block p-5 bg-white rounded-2xl border border-slate-200 hover:shadow-md hover:border-indigo-200 transition-all">
-      <h2 className="font-semibold text-slate-900 text-lg">{set.title}</h2>
+      <h2 className="font-semibold text-slate-700 text-lg">{set.title}</h2>
       {set.folder && <p className="text-sm text-slate-500 mt-0.5">{set.folder}</p>}
       {set.tags.length > 0 && (
         <div className="flex gap-1 mt-3 flex-wrap">
