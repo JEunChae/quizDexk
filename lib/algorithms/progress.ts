@@ -2,8 +2,9 @@ import type { Card, CardResult } from '@/types/database'
 
 export function calculateProgress(cards: Card[], results: CardResult[]): number {
   if (cards.length === 0) return 0
-  const answered = new Set(results.map(r => r.card_id))
-  return Math.min(100, Math.round(answered.size / cards.length * 100))
+  const cardIds = new Set(cards.map(c => c.id))
+  const answered = new Set(results.filter(r => cardIds.has(r.card_id)).map(r => r.card_id))
+  return Math.round(answered.size / cards.length * 100)
 }
 
 export function getReviewPriority(cards: Card[], results: CardResult[]): Card[] {
