@@ -18,7 +18,7 @@ export function LoginForm() {
     setError(null)
     const supabase = createClient()
     const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) { setError(toKoreanError(error.message)); setIsLoading(false); return }
+    if (error) { console.error('login error:', error.message, error); setError(toKoreanError(error.message)); setIsLoading(false); return }
     router.refresh()
     router.push('/dashboard')
   }
