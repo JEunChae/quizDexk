@@ -4,9 +4,7 @@ import { getResultsBySet } from '@/lib/supabase/queries/sessions'
 import { createClient } from '@/lib/supabase/server'
 import { calculateProgress } from '@/lib/algorithms/progress'
 import { ProgressBar } from '@/components/progress/progress-bar'
-import { CardItem } from '@/components/cards/card-item'
-import { CardForm } from '@/components/cards/card-form'
-import { BulkAddForm } from '@/components/cards/bulk-add-form'
+import { SetDetailSections } from '@/components/sets/set-detail-sections'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
@@ -62,25 +60,13 @@ export default async function SetDetailPage({ params }: { params: Promise<{ id: 
         </div>
         <ProgressBar value={progress} />
       </div>
-      <div className="space-y-3 mb-8">
-        {cards.map(card => (
-          <CardItem key={card.id} card={card}
-            onUpdate={handleUpdateCard}
-            onDelete={handleDeleteCard}
-          />
-        ))}
-      </div>
-      {/* 개별 카드 추가 */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-5 mb-4">
-        <h2 className="font-semibold text-slate-900 mb-4">카드 추가</h2>
-        <CardForm onSave={handleAddCard} />
-      </div>
-
-      {/* 대량 추가 */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-5">
-        <h2 className="font-semibold text-slate-900 mb-4">대량 추가</h2>
-        <BulkAddForm setId={id} />
-      </div>
+      <SetDetailSections
+        cards={cards}
+        setId={id}
+        onUpdate={handleUpdateCard}
+        onDelete={handleDeleteCard}
+        onAdd={handleAddCard}
+      />
     </main>
   )
 }
