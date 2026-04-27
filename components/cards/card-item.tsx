@@ -3,7 +3,7 @@ import { useState } from 'react'
 import type { Card } from '@/types/database'
 import { CardForm } from './card-form'
 
-const difficultyColor = { easy: 'text-green-600', medium: 'text-yellow-600', hard: 'text-red-600' }
+const difficultyColor = { easy: 'text-emerald-600', medium: 'text-amber-600', hard: 'text-rose-600' }
 const difficultyLabel = { easy: '쉬움', medium: '보통', hard: '어려움' }
 
 interface CardItemProps {
@@ -42,25 +42,25 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
   }
 
   return (
-    <div className="border rounded p-4 flex justify-between items-start">
+    <div className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-sm transition-all flex justify-between items-start">
       <div className="flex-1 min-w-0">
-        <p className="font-medium">{card.front}</p>
-        <p className="text-gray-600 mt-1">{card.back}</p>
-        <span className={`text-xs ${difficultyColor[card.difficulty]}`}>
+        <p className="font-medium text-slate-900">{card.front}</p>
+        <p className="text-slate-500 mt-1 text-sm">{card.back}</p>
+        <span className={`text-xs font-medium ${difficultyColor[card.difficulty]}`}>
           {difficultyLabel[card.difficulty]}
         </span>
       </div>
       <div className="flex gap-2 ml-4 shrink-0 flex-col items-end">
         <div className="flex gap-2">
-          <button onClick={() => setEditing(true)} className="text-blue-600 text-sm">수정</button>
+          <button onClick={() => setEditing(true)} className="text-indigo-600 hover:text-indigo-700 text-sm font-medium transition-colors">수정</button>
           <button
             onClick={handleDelete} disabled={isDeleting}
-            className="text-red-500 text-sm disabled:opacity-50"
+            className="text-rose-500 hover:text-rose-600 text-sm font-medium transition-colors disabled:opacity-50"
           >
             {isDeleting ? '삭제 중...' : '삭제'}
           </button>
         </div>
-        {deleteError && <p className="text-red-500 text-xs">{deleteError}</p>}
+        {deleteError && <p className="text-rose-500 text-xs">{deleteError}</p>}
       </div>
     </div>
   )

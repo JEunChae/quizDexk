@@ -26,21 +26,23 @@ export function MCQCard({ card, allCards, onResult }: {
 
   return (
     <div className="space-y-4">
-      <p className="text-xl font-medium text-center py-8 bg-white border rounded-xl p-6">{card.front}</p>
+      <div className="bg-white rounded-2xl border border-slate-200 p-6 text-xl font-medium text-center text-slate-900 min-h-[100px] flex items-center justify-center">
+        {card.front}
+      </div>
       <div className="grid grid-cols-2 gap-3">
         {options.map(opt => (
           <button
             key={opt}
             onClick={() => handleSelect(opt)}
             disabled={submitting}
-            className={`p-4 rounded-lg border text-left transition-colors ${
+            className={`p-4 rounded-xl border text-left transition-all ${
               selected === null
-                ? 'hover:bg-gray-50'
+                ? 'border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 text-slate-900'
                 : opt === card.back
-                  ? 'bg-green-100 border-green-500 text-green-800'
+                  ? 'border-emerald-500 bg-emerald-50 text-emerald-800'
                   : opt === selected
-                    ? 'bg-red-100 border-red-500 text-red-800'
-                    : 'opacity-50'
+                    ? 'border-rose-500 bg-rose-50 text-rose-800'
+                    : 'opacity-50 border-slate-200 text-slate-900'
             }`}
           >
             {opt}

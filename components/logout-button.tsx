@@ -12,7 +12,7 @@ export function LogoutButton() {
   }
 
   return (
-    <button onClick={handleLogout} className="text-sm text-gray-500 hover:text-red-500">
+    <button onClick={handleLogout} className="text-sm text-slate-500 hover:text-rose-500 transition-colors">
       로그아웃
     </button>
   )

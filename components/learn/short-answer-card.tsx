@@ -29,7 +29,9 @@ export function ShortAnswerCard({ card, onResult }: {
 
   return (
     <div className="space-y-4">
-      <p className="text-xl font-medium text-center py-8 bg-white border rounded-xl p-6">{card.front}</p>
+      <div className="bg-white rounded-2xl border border-slate-200 p-6 text-xl font-medium text-center text-slate-900 min-h-[100px] flex items-center justify-center">
+        {card.front}
+      </div>
       <form onSubmit={handleSubmit} className="flex gap-2">
         <input
           ref={inputRef}
@@ -39,24 +41,25 @@ export function ShortAnswerCard({ card, onResult }: {
           required
           autoFocus
           disabled={submitting}
-          className={`flex-1 border rounded px-3 py-2 ${
-            checked === true ? 'border-green-500 bg-green-50' :
-            checked === false ? 'border-red-500 bg-red-50' : ''
+          className={`flex-1 border rounded-xl px-4 py-2.5 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 transition-all ${
+            checked === true ? 'border-emerald-500 bg-emerald-50 focus:ring-emerald-500' :
+            checked === false ? 'border-rose-500 bg-rose-50 focus:ring-rose-500' :
+            'border-slate-200 focus:ring-indigo-500'
           }`}
         />
         <button
           type="submit"
           disabled={submitting}
-          className="bg-blue-600 text-white rounded px-4 py-2 disabled:opacity-50"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl px-4 py-2.5 font-medium transition-colors disabled:opacity-50"
         >
           확인
         </button>
       </form>
       {checked === false && (
-        <p className="text-red-600 text-sm">정답: <span className="font-medium">{card.back}</span></p>
+        <p className="text-rose-600 text-sm">정답: <span className="font-medium">{card.back}</span></p>
       )}
       {checked === true && (
-        <p className="text-green-600 text-sm font-medium">정답입니다!</p>
+        <p className="text-emerald-600 text-sm font-medium">정답입니다!</p>
       )}
     </div>
   )

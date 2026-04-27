@@ -3,7 +3,7 @@ import { useState } from 'react'
 import type { Card } from '@/types/database'
 
 const difficultyLabel = { easy: '쉬움', medium: '보통', hard: '어려움' }
-const difficultyColor = { easy: 'text-green-600', medium: 'text-yellow-600', hard: 'text-red-600' }
+const difficultyColor = { easy: 'text-emerald-600', medium: 'text-amber-600', hard: 'text-rose-600' }
 
 export function Flashcard({ card, onResult }: { card: Card; onResult: (isCorrect: boolean) => void }) {
   const [flipped, setFlipped] = useState(false)
@@ -16,28 +16,28 @@ export function Flashcard({ card, onResult }: { card: Card; onResult: (isCorrect
     <div className="flex flex-col items-center gap-6">
       <div
         onClick={handleFlip}
-        className="w-full max-w-lg h-56 bg-white border rounded-xl shadow cursor-pointer flex items-center justify-center p-8 text-center text-xl font-medium select-none hover:shadow-md transition-shadow"
+        className="w-full max-w-lg bg-white rounded-2xl shadow-md border border-slate-200 p-8 min-h-[200px] cursor-pointer flex items-center justify-center text-center text-xl font-medium text-slate-900 select-none hover:shadow-lg transition-all"
       >
         {flipped ? card.back : card.front}
       </div>
-      <p className="text-sm text-gray-400">{flipped ? '뒷면' : '앞면'} — 카드를 클릭해 뒤집기</p>
+      <p className="text-sm text-slate-400">{flipped ? '뒷면' : '앞면'} — 카드를 클릭해 뒤집기</p>
       {flipped && (
         <div className="flex gap-4">
           <button
             onClick={() => { setFlipped(false); onResult(false) }}
-            className="bg-red-100 text-red-700 rounded px-6 py-2 hover:bg-red-200"
+            className="bg-rose-500 hover:bg-rose-600 text-white rounded-xl px-6 py-2.5 font-medium transition-colors"
           >
             몰랐어요
           </button>
           <button
             onClick={() => { setFlipped(false); onResult(true) }}
-            className="bg-green-100 text-green-700 rounded px-6 py-2 hover:bg-green-200"
+            className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl px-6 py-2.5 font-medium transition-colors"
           >
             알았어요
           </button>
         </div>
       )}
-      <span className={`text-xs ${difficultyColor[card.difficulty]}`}>
+      <span className={`text-xs font-medium ${difficultyColor[card.difficulty]}`}>
         {difficultyLabel[card.difficulty]}
       </span>
     </div>

@@ -16,15 +16,15 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
 
   return (
     <html lang="ko">
-      <body>
-        <nav className="border-b px-6 py-3 flex items-center justify-between">
-          <Link href="/dashboard" className="font-bold text-lg text-blue-600">quizDeck</Link>
-          <div className="flex gap-4 text-sm items-center">
+      <body className="bg-slate-50 min-h-screen">
+        <nav className="bg-white border-b border-slate-200 px-6 py-3.5 flex items-center justify-between sticky top-0 z-10">
+          <Link href="/dashboard" className="font-bold text-lg text-indigo-600 tracking-tight">quizDeck</Link>
+          <div className="flex gap-5 text-sm items-center">
             {user && (
               <>
-                <Link href="/dashboard" className="hover:text-blue-600">내 단어장</Link>
-                <Link href="/history" className="hover:text-blue-600">학습 기록</Link>
-                <span className="text-gray-300">|</span>
+                <Link href="/dashboard" className="text-slate-600 hover:text-indigo-600 transition-colors">내 단어장</Link>
+                <Link href="/history" className="text-slate-600 hover:text-indigo-600 transition-colors">학습 기록</Link>
+                <span className="text-slate-200">|</span>
                 <LogoutButton />
               </>
             )}

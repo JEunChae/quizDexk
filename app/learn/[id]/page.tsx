@@ -97,34 +97,34 @@ export default function LearnPage() {
   }, [sessionId, cards, index, submitting, supabase])
 
   if (loading) return (
-    <div className="flex items-center justify-center min-h-screen">
-      <p className="text-gray-500">로딩 중...</p>
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <p className="text-slate-500">로딩 중...</p>
     </div>
   )
 
   if (cards.length === 0) return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-4">
-      <p className="text-gray-500">카드가 없습니다.</p>
-      <Link href={`/sets/${setId}`} className="text-blue-600">세트로 돌아가기</Link>
+    <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+      <p className="text-slate-500">카드가 없습니다.</p>
+      <Link href={`/sets/${setId}`} className="text-indigo-600 hover:underline font-medium">세트로 돌아가기</Link>
     </div>
   )
 
   if (!mode) return (
-    <main className="max-w-lg mx-auto p-6">
+    <main className="max-w-lg mx-auto px-6 py-8">
       <div className="flex justify-between items-center mb-8">
-        <Link href={`/sets/${setId}`} className="text-sm text-gray-500 hover:text-gray-700">← 세트로</Link>
-        <p className="text-sm text-gray-500">카드 {cards.length}개</p>
+        <Link href={`/sets/${setId}`} className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">← 세트로</Link>
+        <p className="text-sm text-slate-500">카드 {cards.length}개</p>
       </div>
-      <h2 className="text-xl font-bold mb-6 text-center">학습 모드 선택</h2>
+      <h2 className="text-xl font-bold text-slate-900 mb-6 text-center">학습 모드 선택</h2>
       <div className="space-y-3">
         {MODES.map(m => (
           <button
             key={m.value}
             onClick={() => startSession(m.value)}
-            className="w-full border rounded-xl p-4 text-left hover:border-blue-500 hover:bg-blue-50 transition-colors"
+            className="w-full bg-white border-2 border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 rounded-2xl p-5 text-left transition-all"
           >
-            <p className="font-semibold">{m.label}</p>
-            <p className="text-sm text-gray-500 mt-1">{m.desc}</p>
+            <p className="font-semibold text-slate-900">{m.label}</p>
+            <p className="text-sm text-slate-500 mt-1">{m.desc}</p>
           </button>
         ))}
       </div>
@@ -132,17 +132,22 @@ export default function LearnPage() {
   )
 
   if (done) return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-4">
-      <h2 className="text-2xl font-bold">학습 완료!</h2>
-      <p className="text-gray-500">총 {cards.length}개 카드를 학습했습니다.</p>
-      <div className="flex gap-3">
-        <button
-          onClick={() => { setMode(null); setSessionId(null) }}
-          className="bg-blue-600 text-white rounded px-4 py-2"
-        >
-          다시 학습
-        </button>
-        <Link href={`/sets/${setId}`} className="border rounded px-4 py-2">세트로 돌아가기</Link>
+    <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+      <div className="bg-white rounded-2xl border border-slate-200 p-8 text-center shadow-sm max-w-sm w-full mx-4">
+        <div className="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span className="text-2xl">✓</span>
+        </div>
+        <h2 className="text-2xl font-bold text-slate-900">학습 완료!</h2>
+        <p className="text-slate-500 mt-2">총 {cards.length}개 카드를 학습했습니다.</p>
+        <div className="flex gap-3 mt-6 justify-center">
+          <button
+            onClick={() => { setMode(null); setSessionId(null) }}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl px-4 py-2 font-medium transition-colors"
+          >
+            다시 학습
+          </button>
+          <Link href={`/sets/${setId}`} className="border border-slate-200 hover:bg-slate-50 rounded-xl px-4 py-2 text-slate-700 transition-colors">세트로 돌아가기</Link>
+        </div>
       </div>
     </div>
   )
@@ -150,10 +155,10 @@ export default function LearnPage() {
   const card = cards[index]
 
   return (
-    <main className="max-w-2xl mx-auto p-6">
+    <main className="max-w-2xl mx-auto px-6 py-8">
       <div className="flex justify-between items-center mb-6">
-        <Link href={`/sets/${setId}`} className="text-sm text-gray-500 hover:text-gray-700">← 세트로</Link>
-        <p className="text-sm text-gray-500">{index + 1} / {cards.length}</p>
+        <Link href={`/sets/${setId}`} className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">← 세트로</Link>
+        <p className="text-sm text-slate-500 font-medium">{index + 1} / {cards.length}</p>
       </div>
       {mode === 'flip' && <Flashcard card={card} onResult={handleResult} />}
       {mode === 'mcq' && <MCQCard card={card} allCards={allCards} onResult={handleResult} />}

@@ -10,8 +10,11 @@ export default async function HistoryPage() {
   const sessions = await getUserSessions(user.id)
 
   return (
-    <main className="max-w-3xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">학습 기록</h1>
+    <main className="max-w-3xl mx-auto px-6 py-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-slate-900">학습 기록</h1>
+        <p className="text-slate-500 text-sm mt-1">지금까지의 학습 세션을 확인하세요</p>
+      </div>
       <HistoryList sessions={sessions} />
     </main>
   )

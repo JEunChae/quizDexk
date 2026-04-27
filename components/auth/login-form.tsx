@@ -23,28 +23,39 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow space-y-4">
-      <h1 className="text-2xl font-bold">로그인</h1>
-      {error && <p className="text-red-500 text-sm">{error}</p>}
-      <input
-        type="email" value={email} onChange={e => setEmail(e.target.value)}
-        placeholder="이메일" required
-        className="w-full border rounded px-3 py-2 text-gray-900 placeholder:text-gray-400"
-      />
-      <input
-        type="password" value={password} onChange={e => setPassword(e.target.value)}
-        placeholder="비밀번호" required
-        className="w-full border rounded px-3 py-2 text-gray-900 placeholder:text-gray-400"
-      />
-      <button
-        type="submit" disabled={isLoading}
-        className="w-full bg-blue-600 text-white rounded px-3 py-2 disabled:opacity-50"
-      >
-        {isLoading ? '로그인 중...' : '로그인'}
-      </button>
-      <p className="text-sm text-center">
-        계정이 없으신가요? <Link href="/signup" className="text-blue-600">회원가입</Link>
-      </p>
-    </form>
+    <div className="w-full max-w-sm">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-slate-900">quizDeck</h1>
+        <p className="text-slate-500 mt-2 text-sm">플래시카드로 스마트하게 학습하세요</p>
+      </div>
+      <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 space-y-4">
+        <h2 className="text-xl font-semibold text-slate-900">로그인</h2>
+        {error && (
+          <div className="bg-rose-50 border border-rose-200 rounded-xl px-4 py-3">
+            <p className="text-rose-600 text-sm">{error}</p>
+          </div>
+        )}
+        <input
+          type="email" value={email} onChange={e => setEmail(e.target.value)}
+          placeholder="이메일" required
+          className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+        />
+        <input
+          type="password" value={password} onChange={e => setPassword(e.target.value)}
+          placeholder="비밀번호" required
+          className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+        />
+        <button
+          type="submit" disabled={isLoading}
+          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl px-4 py-2.5 font-medium transition-colors disabled:opacity-50"
+        >
+          {isLoading ? '로그인 중...' : '로그인'}
+        </button>
+        <p className="text-sm text-center text-slate-500">
+          계정이 없으신가요?{' '}
+          <Link href="/signup" className="text-indigo-600 font-medium hover:underline">회원가입</Link>
+        </p>
+      </form>
+    </div>
   )
 }

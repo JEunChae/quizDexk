@@ -94,11 +94,15 @@ export default function TestPage() {
     }
   }
 
-  if (!session || cards.length === 0) return <p className="text-center p-8">로딩 중...</p>
+  if (!session || cards.length === 0) return (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <p className="text-slate-500">로딩 중...</p>
+    </div>
+  )
 
   if (session.state === 'completed') {
     return (
-      <main className="max-w-2xl mx-auto p-6">
+      <main className="max-w-2xl mx-auto px-6 py-8">
         <ResultReport
           cards={cards}
           results={session.results}
@@ -112,19 +116,21 @@ export default function TestPage() {
   const card = session.cards[session.currentIndex]
 
   return (
-    <main className="max-w-2xl mx-auto p-6">
+    <main className="max-w-2xl mx-auto px-6 py-8">
       <div className="flex justify-between items-center mb-6">
-        <p className="text-sm text-gray-500">{session.currentIndex + 1} / {session.cards.length}</p>
+        <p className="text-sm text-slate-500 font-medium">{session.currentIndex + 1} / {session.cards.length}</p>
         <ExamTimer seconds={session.timeRemaining} onTick={handleTick} />
       </div>
-      <p className="text-xl font-medium text-center py-8">{card.front}</p>
+      <div className="bg-white rounded-2xl border border-slate-200 p-6 text-xl font-medium text-center text-slate-900 mb-4 min-h-[100px] flex items-center justify-center">
+        {card.front}
+      </div>
       <div className="grid grid-cols-2 gap-3">
         {mcqOptions.map(opt => (
           <button
             key={opt}
             onClick={() => handleAnswer(opt === card.back)}
             disabled={submitting}
-            className="p-4 rounded-lg border hover:bg-gray-50 text-left disabled:opacity-50"
+            className="p-4 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 text-left text-slate-900 disabled:opacity-50 transition-all"
           >
             {opt}
           </button>

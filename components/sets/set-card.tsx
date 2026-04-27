@@ -4,13 +4,13 @@ import Link from 'next/link'
 export function SetCard({ set }: { set: FlashSet }) {
   return (
     <Link href={`/sets/${set.id}`}
-      className="block p-4 bg-white rounded-lg border hover:shadow-md transition-shadow">
-      <h2 className="font-semibold text-lg">{set.title}</h2>
-      {set.folder && <p className="text-sm text-gray-500">{set.folder}</p>}
+      className="block p-5 bg-white rounded-2xl border border-slate-200 hover:shadow-md hover:border-indigo-200 transition-all">
+      <h2 className="font-semibold text-slate-900 text-lg">{set.title}</h2>
+      {set.folder && <p className="text-sm text-slate-500 mt-0.5">{set.folder}</p>}
       {set.tags.length > 0 && (
-        <div className="flex gap-1 mt-2 flex-wrap">
+        <div className="flex gap-1 mt-3 flex-wrap">
           {set.tags.map(tag => (
-            <span key={tag} className="text-xs bg-blue-100 text-blue-700 rounded px-2 py-0.5">{tag}</span>
+            <span key={tag} className="text-xs bg-indigo-50 text-indigo-600 rounded-full px-2.5 py-0.5 border border-indigo-100">{tag}</span>
           ))}
         </div>
       )}
