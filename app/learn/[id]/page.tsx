@@ -54,12 +54,19 @@ export default function LearnPage() {
         setSessionId(resumeSessionId)
         setMode((sessionData?.mode as StudyMode) ?? 'flip')
       } else {
-        const { data: results } = await supabase
-          .from('card_results')
-          .select('*, study_sessions!inner(user_id, set_id)')
-          .eq('study_sessions.user_id', user.id)
-          .eq('study_sessions.set_id', setId)
-        setPrevResults(results ?? [])
+        const { data: sessions } = await supabase
+          .from('study_sessions')
+          .select('id')
+          .eq('user_id', user.id)
+          .eq('set_id', setId)
+        const sessionIds = (sessions ?? []).map(s => s.id)
+        if (sessionIds.length > 0) {
+          const { data: results } = await supabase
+            .from('card_results')
+            .select('*')
+            .in('session_id', sessionIds)
+          setPrevResults(results ?? [])
+        }
       }
       setLoading(false)
     }
