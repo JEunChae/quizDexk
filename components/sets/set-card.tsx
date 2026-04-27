@@ -23,7 +23,7 @@ export function SetCard({ set, onUpdate, onDelete }: Props) {
 
   if (editing) {
     return (
-      <div className="bg-white rounded-2xl border border-indigo-200 p-5 shadow-sm">
+      <div className="self-start bg-white rounded-2xl border border-indigo-200 p-5 shadow-sm">
         <p className="text-sm font-medium text-indigo-600 mb-4">단어장 수정</p>
         <SetForm
           defaultValues={set}

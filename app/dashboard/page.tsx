@@ -40,7 +40,7 @@ export default async function DashboardPage() {
           </div>
         )
         : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 items-start">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {sets.map(set => (
               <SetCard
                 key={set.id}
