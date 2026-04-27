@@ -27,3 +27,9 @@ export async function deleteCard(id: string): Promise<void> {
   const { error } = await supabase.from('cards').delete().eq('id', id)
   if (error) throw error
 }
+
+export async function deleteAllCardsBySetId(setId: string): Promise<void> {
+  const supabase = await createClient()
+  const { error } = await supabase.from('cards').delete().eq('set_id', setId)
+  if (error) throw error
+}

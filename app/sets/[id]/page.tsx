@@ -1,5 +1,5 @@
 import { getSetById } from '@/lib/supabase/queries/sets'
-import { getCardsBySetId, createCard, updateCard, deleteCard } from '@/lib/supabase/queries/cards'
+import { getCardsBySetId, createCard, updateCard, deleteCard, deleteAllCardsBySetId } from '@/lib/supabase/queries/cards'
 import { getResultsBySet } from '@/lib/supabase/queries/sessions'
 import { createClient } from '@/lib/supabase/server'
 import { calculateProgress } from '@/lib/algorithms/progress'
@@ -41,6 +41,12 @@ export default async function SetDetailPage({ params }: { params: Promise<{ id: 
     revalidatePath(`/sets/${id}`)
   }
 
+  async function handleDeleteAllCards() {
+    'use server'
+    await deleteAllCardsBySetId(id)
+    revalidatePath(`/sets/${id}`)
+  }
+
   return (
     <main className="max-w-3xl mx-auto px-6 py-8">
       <div className="flex justify-between items-center mb-6">
@@ -65,6 +71,7 @@ export default async function SetDetailPage({ params }: { params: Promise<{ id: 
         setId={id}
         onUpdate={handleUpdateCard}
         onDelete={handleDeleteCard}
+        onDeleteAll={handleDeleteAllCards}
         onAdd={handleAddCard}
       />
     </main>
