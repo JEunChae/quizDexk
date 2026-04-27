@@ -6,6 +6,7 @@ import { calculateProgress } from '@/lib/algorithms/progress'
 import { ProgressBar } from '@/components/progress/progress-bar'
 import { CardItem } from '@/components/cards/card-item'
 import { CardForm } from '@/components/cards/card-form'
+import { BulkAddForm } from '@/components/cards/bulk-add-form'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
@@ -69,9 +70,16 @@ export default async function SetDetailPage({ params }: { params: Promise<{ id: 
           />
         ))}
       </div>
-      <div className="bg-white rounded-2xl border border-slate-200 p-5">
+      {/* 개별 카드 추가 */}
+      <div className="bg-white rounded-2xl border border-slate-200 p-5 mb-4">
         <h2 className="font-semibold text-slate-900 mb-4">카드 추가</h2>
         <CardForm onSave={handleAddCard} />
+      </div>
+
+      {/* 대량 추가 */}
+      <div className="bg-white rounded-2xl border border-slate-200 p-5">
+        <h2 className="font-semibold text-slate-900 mb-4">대량 추가</h2>
+        <BulkAddForm setId={id} />
       </div>
     </main>
   )
