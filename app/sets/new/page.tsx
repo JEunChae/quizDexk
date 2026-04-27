@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { SetForm } from '@/components/sets/set-form'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import { toKoreanError } from '@/lib/utils/error-message'
 import type { FlashSet } from '@/types/database'
 
 export default function NewSetPage() {
@@ -19,7 +20,7 @@ export default function NewSetPage() {
       .insert({ ...values, user_id: user.id })
       .select()
       .single()
-    if (insertError || !data) { setError(insertError?.message ?? '저장에 실패했습니다'); throw insertError }
+    if (insertError || !data) { setError(toKoreanError(insertError?.message ?? '', '세트 저장에 실패했습니다. 다시 시도해주세요')); throw insertError }
     router.push(`/sets/${data.id}`)
   }
 

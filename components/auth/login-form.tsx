@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { toKoreanError } from '@/lib/utils/error-message'
 import { useRouter } from 'next/navigation'
 
 export function LoginForm() {
@@ -17,7 +18,7 @@ export function LoginForm() {
     setError(null)
     const supabase = createClient()
     const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) { setError(error.message); setIsLoading(false); return }
+    if (error) { setError(toKoreanError(error.message)); setIsLoading(false); return }
     router.refresh()
     router.push('/dashboard')
   }

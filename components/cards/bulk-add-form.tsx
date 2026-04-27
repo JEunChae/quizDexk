@@ -3,6 +3,7 @@ import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useMemo } from 'react'
+import { toKoreanError } from '@/lib/utils/error-message'
 
 type ParsedCard = { front: string; back: string }
 
@@ -81,7 +82,7 @@ export function BulkAddForm({ setId }: { setId: string }) {
     const rows = preview.map(c => ({ set_id: setId, front: c.front, back: c.back, difficulty: 'medium' as const }))
     const { error } = await supabase.from('cards').insert(rows)
     setLoading(false)
-    if (error) { setError(error.message); return }
+    if (error) { setError(toKoreanError(error.message, '카드 저장에 실패했습니다. 다시 시도해주세요')); return }
     setSuccess(preview.length)
     setText('')
     setPreview([])
