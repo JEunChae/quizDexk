@@ -22,7 +22,7 @@ export default function LearnPage() {
   const searchParams = useSearchParams()
   const resumeSessionId = searchParams.get('session')
   const supabase = useMemo(() => createClient(), [])
-  const [sessionSize, setSessionSize] = useSessionSize()
+  const [sessionSize, setSessionSize] = useSessionSize(allCards.length || undefined)
 
   const [allCards, setAllCards] = useState<Card[]>([])
   const [prevResults, setPrevResults] = useState<CardResult[]>([])

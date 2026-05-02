@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useSessionSize } from '@/hooks/use-session-size'
 
 export function SessionSizeControl({ totalCards }: { totalCards: number }) {
-  const [sessionSize, setSessionSize] = useSessionSize()
+  const [sessionSize, setSessionSize] = useSessionSize(totalCards)
   const [draft, setDraft] = useState(String(sessionSize))
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export function SessionSizeControl({ totalCards }: { totalCards: number }) {
         type="number"
         value={draft}
         min={5}
-        max={500}
+        max={totalCards}
         onChange={e => setDraft(e.target.value)}
         onBlur={e => commit(e.target.value)}
         onKeyDown={e => { if (e.key === 'Enter') commit((e.target as HTMLInputElement).value) }}
