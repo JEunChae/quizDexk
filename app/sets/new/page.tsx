@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { toKoreanError } from '@/lib/utils/error-message'
 import type { FlashSet } from '@/types/database'
+import Link from 'next/link'
 
 export default function NewSetPage() {
   const router = useRouter()
@@ -20,14 +21,15 @@ export default function NewSetPage() {
       .insert({ ...values, user_id: user.id })
       .select()
       .single()
-    if (insertError || !data) { setError(toKoreanError(insertError?.message ?? '', '세트 저장에 실패했습니다. 다시 시도해주세요')); throw insertError }
+    if (insertError || !data) { setError(toKoreanError(insertError?.message ?? '', '저장에 실패했습니다')); throw insertError }
     router.push(`/sets/${data.id}`)
   }
 
   return (
-    <main className="max-w-lg mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">새 세트 만들기</h1>
-      {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+    <main className="max-w-lg mx-auto px-6 py-8">
+      <Link href="/dashboard" className="text-sm text-stone-400 btn-ghost px-0">← 내 단어장</Link>
+      <h1 className="text-2xl font-bold text-stone-800 mt-1 mb-6">새 단어장</h1>
+      {error && <p className="text-stone-500 text-sm mb-4">{error}</p>}
       <SetForm onSubmit={handleSubmit} submitLabel="만들기" />
     </main>
   )

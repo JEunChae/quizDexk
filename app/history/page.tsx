@@ -12,8 +12,8 @@ export default async function HistoryPage() {
   return (
     <main className="max-w-3xl mx-auto px-6 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-indigo-700">학습 기록</h1>
-        <p className="text-slate-500 text-sm mt-1">지금까지의 학습 세션을 확인하세요</p>
+        <h1 className="text-2xl font-bold text-stone-800">학습 기록</h1>
+        <p className="text-stone-400 text-sm mt-1">지금까지의 학습 세션</p>
       </div>
       <HistoryList sessions={sessions} />
     </main>
