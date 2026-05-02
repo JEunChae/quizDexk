@@ -1,19 +1,24 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useSessionSize } from '@/hooks/use-session-size'
 
 export function SessionSizeControl({ totalCards }: { totalCards: number }) {
   const [sessionSize, setSessionSize] = useSessionSize(totalCards)
   const [draft, setDraft] = useState(String(sessionSize))
+  const focused = useRef(false)
 
+  // 포커스 중이 아닐 때만 외부 상태로 draft 동기화
   useEffect(() => {
-    setDraft(String(sessionSize))
+    if (!focused.current) setDraft(String(sessionSize))
   }, [sessionSize])
 
   function commit(value: string) {
     const n = parseInt(value, 10)
-    if (!isNaN(n)) setSessionSize(n)
-    else setDraft(String(sessionSize))
+    if (!isNaN(n) && n >= 1) {
+      setSessionSize(n)
+    } else {
+      setDraft(String(sessionSize))
+    }
   }
 
   return (
@@ -25,7 +30,8 @@ export function SessionSizeControl({ totalCards }: { totalCards: number }) {
         min={5}
         max={totalCards}
         onChange={e => setDraft(e.target.value)}
-        onBlur={e => commit(e.target.value)}
+        onFocus={() => { focused.current = true }}
+        onBlur={e => { focused.current = false; commit(e.target.value) }}
         onKeyDown={e => { if (e.key === 'Enter') commit((e.target as HTMLInputElement).value) }}
         className="text-sm text-stone-700 text-center input-note"
         style={{ width: '4rem' }}
