@@ -48,15 +48,15 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
       <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 shrink-0" />
 
       {/* 영단어 */}
-      <span className="font-en font-bold text-lg text-slate-800 truncate min-w-0" style={{ flex: '0 1 35%' }}>
+      <span className="font-en font-bold text-base text-slate-800 truncate min-w-0" style={{ flex: '0 1 35%' }}>
         {card.front}
       </span>
 
       {/* 구분선 */}
-      <span className="text-slate-300 shrink-0">—</span>
+      <span className="text-slate-300 shrink-0 text-sm">—</span>
 
       {/* 한국어 뜻 */}
-      <span className="font-ko text-lg text-slate-700 truncate min-w-0 flex-1">
+      <span className="font-ko text-base text-slate-700 truncate min-w-0 flex-1">
         {card.back}
       </span>
 

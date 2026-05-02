@@ -28,15 +28,15 @@ body {
 .notebook-paper {
   background-color: var(--background);
   background-image:
-    linear-gradient(to right, transparent 3rem, var(--margin-color) 3rem, var(--margin-color) 3.0625rem, transparent 3.0625rem),
+    linear-gradient(to right, transparent 1.75rem, var(--margin-color) 1.75rem, var(--margin-color) 1.8125rem, transparent 1.8125rem),
     repeating-linear-gradient(
       transparent,
-      transparent 2rem,
-      var(--line-color) 2rem,
-      var(--line-color) calc(2rem + 1px)
+      transparent 1.75rem,
+      var(--line-color) 1.75rem,
+      var(--line-color) calc(1.75rem + 1px)
     );
-  padding-left: 4rem;
-  line-height: 2rem;
+  padding-left: 2.5rem;
+  line-height: 1.75rem;
 }
 
 /* 버튼 */
