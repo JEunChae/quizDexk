@@ -43,26 +43,21 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
   }
 
   return (
-    <div className="flex items-center gap-3 py-1 group" style={{ minHeight: '2rem' }}>
+    <div className="flex items-center gap-2 py-1" style={{ minHeight: '2rem' }}>
       {/* 동그라미 불릿 */}
       <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 shrink-0" />
 
-      {/* 영단어 - Kalam */}
-      <span className="font-en font-bold text-lg text-slate-800 w-44 shrink-0 truncate">
+      {/* 영단어 */}
+      <span className="font-en font-bold text-lg text-slate-800 truncate min-w-0" style={{ flex: '0 1 35%' }}>
         {card.front}
       </span>
 
       {/* 구분선 */}
       <span className="text-slate-300 shrink-0">—</span>
 
-      {/* 한국어 뜻 - 나눔 펜글씨 */}
-      <span className="font-ko text-lg text-slate-700 flex-1 truncate">
+      {/* 한국어 뜻 */}
+      <span className="font-ko text-lg text-slate-700 truncate min-w-0 flex-1">
         {card.back}
-      </span>
-
-      {/* 난이도 */}
-      <span className={`text-xs shrink-0 ${difficultyColor[card.difficulty]}`}>
-        {difficultyLabel[card.difficulty]}
       </span>
 
       {/* 수정/삭제 */}
