@@ -12,6 +12,7 @@ export function SignupForm() {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [emailSent, setEmailSent] = useState(false)
+  const [formKey, setFormKey] = useState(0)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -19,8 +20,7 @@ export function SignupForm() {
     setError(null)
     const savedEmail = email
     const savedPassword = password
-    setEmail('')
-    setPassword('')
+    setFormKey(k => k + 1)
     const supabase = createClient()
     const { data, error } = await supabase.auth.signUp({ email: savedEmail, password: savedPassword })
     if (error) { setError(toKoreanError(error.message)); setIsLoading(false); return }
@@ -45,7 +45,7 @@ export function SignupForm() {
         <h1 className="text-4xl font-bold text-stone-800">quizDeck</h1>
         <p className="text-stone-400 mt-2 text-base">나만의 단어장</p>
       </div>
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form key={formKey} onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-5">
           {error && <p className="text-sm text-stone-500">{error}</p>}
           <input
