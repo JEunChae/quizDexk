@@ -60,6 +60,11 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
         {card.back}
       </span>
 
+      {/* 난이도 - 모바일에서 숨김 */}
+      <span className={`hidden sm:inline text-xs shrink-0 ${difficultyColor[card.difficulty]}`}>
+        {difficultyLabel[card.difficulty]}
+      </span>
+
       {/* 수정/삭제 */}
       <div className="flex gap-1 shrink-0">
         <button onClick={() => setEditing(true)} className="text-sm text-stone-400 px-1">수정</button>
