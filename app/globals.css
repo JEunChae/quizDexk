@@ -111,3 +111,7 @@ body {
 .select-note:focus {
   border-color: #1a1a1a;
 }
+
+input[type="password"] {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
