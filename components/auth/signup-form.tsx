@@ -20,7 +20,7 @@ export function SignupForm() {
     const supabase = createClient()
     const { data, error } = await supabase.auth.signUp({ email, password })
     if (error) { setError(toKoreanError(error.message)); setIsLoading(false); return }
-    if (!data.session) { setEmailSent(true); setIsLoading(false); return }
+    if (!data.session) { setEmail(''); setPassword(''); setEmailSent(true); setIsLoading(false); return }
     router.refresh()
     router.push('/dashboard')
   }
