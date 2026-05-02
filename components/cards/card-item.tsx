@@ -45,7 +45,7 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
   return (
     <div className="py-0.5">
       {/* 단어 줄 - 말줄임 없이 자연스럽게 wrap */}
-      <div className="flex items-baseline gap-2">
+      <div className="flex items-baseline gap-2 flex-wrap">
         <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 shrink-0 mt-1" />
         <span className="font-en font-bold text-base text-slate-800 shrink-0">
           {card.front}
