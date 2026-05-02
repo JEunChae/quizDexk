@@ -6,6 +6,7 @@ import { calculateProgress } from '@/lib/algorithms/progress'
 import { ProgressBar } from '@/components/progress/progress-bar'
 import { SetDetailSections } from '@/components/sets/set-detail-sections'
 import { SessionSizeControl } from '@/components/sets/session-size-control'
+import { PriorityInfo } from '@/components/sets/priority-info'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
@@ -63,7 +64,7 @@ export default async function SetDetailPage({ params }: { params: Promise<{ id: 
 
       <div className="border border-stone-200 rounded p-4 mb-6">
         <div className="flex justify-between text-sm text-stone-400 mb-2">
-          <span>{cards.length}개 단어</span>
+          <span className="flex items-center">{cards.length}개 단어 <PriorityInfo /></span>
           <span>진도 {progress}%</span>
         </div>
         <ProgressBar value={progress} />
