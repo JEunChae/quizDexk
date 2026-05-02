@@ -52,6 +52,7 @@ export function SignupForm() {
           <input
             type="password" value={password} onChange={e => setPassword(e.target.value)}
             placeholder="비밀번호 (6자 이상)" required minLength={6}
+            className="input-note"
           />
         </div>
         <button type="submit" disabled={isLoading} className="btn-note btn-primary w-full py-2 disabled:opacity-50">
