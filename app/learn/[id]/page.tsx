@@ -77,7 +77,7 @@ export default function LearnPage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
 
-    const drawn = drawCards(allCards, prevResults, { wrongFirst: true, limit: sessionSize })
+    const drawn = drawCards(allCards, prevResults, { wrongFirst: true, difficultyFirst: true, limit: sessionSize })
 
     await supabase
       .from('study_sessions')
@@ -136,19 +136,20 @@ export default function LearnPage() {
   if (!mode) return (
     <main className="max-w-lg mx-auto px-6 py-8">
       <div className="flex justify-between items-center mb-8">
-        <Link href={`/sets/${setId}`} className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">← 세트로</Link>
-        <p className="text-sm text-slate-500">전체 {allCards.length}개 · 세션 {sessionSize}개</p>
+        <Link href={`/sets/${setId}`} className="text-sm text-stone-400 btn-ghost px-0">← 세트로</Link>
+        <p className="text-sm text-stone-400">전체 {allCards.length}개 · 세션 {sessionSize}개</p>
       </div>
-      <h2 className="text-xl font-semibold text-indigo-700 mb-5 text-center">학습 모드 선택</h2>
+      <h2 className="text-xl font-semibold text-stone-700 mb-5 text-center">학습 모드 선택</h2>
       <div className="space-y-3">
         {MODES.map(m => (
           <button
             key={m.value}
             onClick={() => startSession(m.value)}
-            className="w-full bg-white border-2 border-slate-200 hover:border-indigo-400 hover:bg-indigo-50 rounded-2xl p-5 text-left transition-all"
+            className="w-full border border-stone-200 rounded p-4 text-left transition-all hover:border-stone-400"
+            style={{ backgroundColor: '#fafaf5' }}
           >
-            <p className="font-semibold text-slate-700">{m.label}</p>
-            <p className="text-sm text-slate-500 mt-1">{m.desc}</p>
+            <p className="font-semibold text-stone-700">{m.label}</p>
+            <p className="text-sm text-stone-400 mt-1">{m.desc}</p>
           </button>
         ))}
       </div>
@@ -156,21 +157,19 @@ export default function LearnPage() {
   )
 
   if (done) return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-      <div className="bg-white rounded-2xl border border-slate-200 p-8 text-center shadow-sm max-w-sm w-full mx-4">
-        <div className="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-2xl">✓</span>
-        </div>
-        <h2 className="text-2xl font-bold text-indigo-700">학습 완료!</h2>
-        <p className="text-slate-500 mt-2">총 {cards.length}개 카드를 학습했습니다.</p>
+    <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 px-4">
+      <div className="border border-stone-200 rounded p-8 text-center max-w-sm w-full" style={{ backgroundColor: '#fafaf5' }}>
+        <p className="text-3xl mb-4">✓</p>
+        <h2 className="text-2xl font-bold text-stone-800">학습 완료!</h2>
+        <p className="text-stone-400 mt-2">총 {cards.length}개 카드를 학습했습니다.</p>
         <div className="flex gap-3 mt-6 justify-center">
           <button
             onClick={() => { setMode(null); setSessionId(null); setCards([]) }}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl px-4 py-2 font-medium transition-colors"
+            className="btn-note btn-primary"
           >
             다시 학습
           </button>
-          <Link href={`/sets/${setId}`} className="bg-white border border-slate-200 hover:bg-slate-50 rounded-xl px-4 py-2 text-slate-700 transition-colors">세트로 돌아가기</Link>
+          <Link href={`/sets/${setId}`} className="btn-note btn-secondary">세트로 돌아가기</Link>
         </div>
       </div>
     </div>
