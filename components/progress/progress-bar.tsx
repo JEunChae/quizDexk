@@ -6,9 +6,13 @@ export function ProgressBar({ value }: { value: number }) {
       aria-valuenow={clamped}
       aria-valuemin={0}
       aria-valuemax={100}
-      className="w-full bg-slate-100 rounded-full h-2"
+      className="w-full rounded-sm h-2.5 overflow-hidden"
+      style={{ backgroundColor: '#e8e8e0', border: '1px solid #d0d0c8' }}
     >
-      <div className="bg-indigo-500 h-2 rounded-full transition-all" style={{ width: `${clamped}%` }} />
+      <div
+        className="h-full transition-all"
+        style={{ width: `${clamped}%`, backgroundColor: '#a8a89a' }}
+      />
     </div>
   )
 }

@@ -50,24 +50,26 @@ export default async function SetDetailPage({ params }: { params: Promise<{ id: 
 
   return (
     <main className="max-w-3xl mx-auto px-6 py-8">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-start mb-6">
         <div>
-          <Link href="/dashboard" className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">← 내 단어장</Link>
-          <h1 className="text-2xl font-bold text-indigo-700 mt-1">{set.title}</h1>
+          <Link href="/dashboard" className="text-sm text-stone-400 btn-ghost px-0">← 내 단어장</Link>
+          <h1 className="text-2xl font-bold text-stone-800 mt-1">{set.title}</h1>
         </div>
-        <div className="flex gap-3">
-          <Link href={`/learn/${set.id}`} className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl px-4 py-2 text-sm font-medium transition-colors">학습</Link>
-          <Link href={`/test/${set.id}`} className="bg-orange-500 hover:bg-orange-600 text-white rounded-xl px-4 py-2 text-sm font-medium transition-colors">시험</Link>
+        <div className="flex gap-2 mt-1">
+          <Link href={`/learn/${set.id}`} className="btn-note btn-primary">학습</Link>
+          <Link href={`/test/${set.id}`} className="btn-note btn-secondary">시험</Link>
         </div>
       </div>
-      <div className="bg-white rounded-2xl border border-slate-200 p-5 mb-6">
-        <div className="flex justify-between text-sm text-slate-500 mb-2">
-          <span>{cards.length}개 카드</span>
-          <span>학습 진도 {progress}%</span>
+
+      <div className="border border-stone-200 rounded p-4 mb-6">
+        <div className="flex justify-between text-sm text-stone-400 mb-2">
+          <span>{cards.length}개 단어</span>
+          <span>진도 {progress}%</span>
         </div>
         <ProgressBar value={progress} />
         <SessionSizeControl totalCards={cards.length} />
       </div>
+
       <SetDetailSections
         cards={cards}
         setId={id}

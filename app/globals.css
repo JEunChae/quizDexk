@@ -1,26 +1,113 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fafaf5;
+  --foreground: #1a1a1a;
+  --line-color: #e8e8e0;
+  --margin-color: #d4c5b0;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-memoment), cursive;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-memoment), cursive;
+}
+
+.font-en,
+.font-ko {
+  font-family: var(--font-memoment), cursive;
+}
+
+/* 노트 줄 배경 */
+.notebook-paper {
+  background-color: var(--background);
+  background-image:
+    linear-gradient(to right, transparent 3rem, var(--margin-color) 3rem, var(--margin-color) 3.0625rem, transparent 3.0625rem),
+    repeating-linear-gradient(
+      transparent,
+      transparent 2rem,
+      var(--line-color) 2rem,
+      var(--line-color) calc(2rem + 1px)
+    );
+  padding-left: 4rem;
+  line-height: 2rem;
+}
+
+/* 버튼 */
+.btn-note {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.75rem;
+  font-family: var(--font-memoment), cursive;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.btn-primary {
+  background: #4a4a4a;
+  color: #fafaf5;
+  border-radius: 3px;
+}
+.btn-primary:active {
+  opacity: 0.7;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #4a4a4a;
+  border: 1.5px solid #4a4a4a;
+  border-radius: 3px;
+}
+.btn-secondary:active {
+  background: #4a4a4a;
+  color: #fafaf5;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #888;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* 인풋 */
+.input-note {
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid #c0c0b0;
+  border-radius: 0;
+  padding: 0.3rem 0.4rem;
+  font-family: var(--font-memoment), cursive;
+  font-size: 1rem;
+  color: var(--foreground);
+  outline: none;
+  width: 100%;
+}
+.input-note::placeholder {
+  color: #bbb;
+}
+.input-note:focus {
+  border-bottom-color: #1a1a1a;
+}
+
+.select-note {
+  background: transparent;
+  border: 1.5px solid #c0c0b0;
+  border-radius: 3px;
+  padding: 0.25rem 0.6rem;
+  font-family: var(--font-memoment), cursive;
+  font-size: 1rem;
+  color: var(--foreground);
+  outline: none;
+}
+.select-note:focus {
+  border-color: #1a1a1a;
 }
