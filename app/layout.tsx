@@ -7,7 +7,7 @@ import { LogoutButton } from '@/components/logout-button'
 import './globals.css'
 
 const memoment = localFont({
-  src: './fonts/MemomentKkukkukk.otf',
+  src: './fonts/MemomentKkukkukk.ttf',
   variable: '--font-memoment',
 })
 
