@@ -43,40 +43,32 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
   }
 
   return (
-    <div className="flex items-center gap-2 py-1" style={{ minHeight: '2rem' }}>
-      {/* 동그라미 불릿 */}
-      <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 shrink-0" />
+    <div className="py-0.5">
+      {/* 단어 줄 - 말줄임 없이 자연스럽게 wrap */}
+      <div className="flex items-baseline gap-2">
+        <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 shrink-0 mt-1" />
+        <span className="font-en font-bold text-sm sm:text-base text-slate-800 shrink-0">
+          {card.front}
+        </span>
+        <span className="text-slate-300 shrink-0 text-sm">—</span>
+        <span className="font-ko text-sm sm:text-base text-slate-700">
+          {card.back}
+        </span>
+      </div>
 
-      {/* 영단어 */}
-      <span className="font-en font-bold text-sm sm:text-lg text-slate-800 truncate min-w-0" style={{ flex: '0 1 35%' }}>
-        {card.front}
-      </span>
-
-      {/* 구분선 */}
-      <span className="text-slate-300 shrink-0 text-sm">—</span>
-
-      {/* 한국어 뜻 */}
-      <span className="font-ko text-sm sm:text-lg text-slate-700 truncate min-w-0 flex-1">
-        {card.back}
-      </span>
-
-      {/* 난이도 - 모바일에서 숨김 */}
-      <span className={`hidden sm:inline text-xs shrink-0 ${difficultyColor[card.difficulty]}`}>
-        {difficultyLabel[card.difficulty]}
-      </span>
-
-      {/* 수정/삭제 */}
-      <div className="flex gap-1 shrink-0">
-        <button onClick={() => setEditing(true)} className="text-sm text-stone-400 px-1">수정</button>
-        <span className="text-stone-300 text-sm">|</span>
-        <button
-          onClick={handleDelete} disabled={isDeleting}
-          className="text-sm text-stone-400 px-1 disabled:opacity-50"
-        >
+      {/* 버튼 줄 */}
+      <div className="flex items-center gap-2 pl-5">
+        <span className={`text-xs ${difficultyColor[card.difficulty]}`}>
+          {difficultyLabel[card.difficulty]}
+        </span>
+        <span className="text-stone-200 text-xs">·</span>
+        <button onClick={() => setEditing(true)} className="text-xs text-stone-400">수정</button>
+        <span className="text-stone-300 text-xs">|</span>
+        <button onClick={handleDelete} disabled={isDeleting} className="text-xs text-stone-400 disabled:opacity-50">
           {isDeleting ? '...' : '삭제'}
         </button>
+        {deleteError && <p className="text-rose-500 text-xs">{deleteError}</p>}
       </div>
-      {deleteError && <p className="text-rose-500 text-xs shrink-0">{deleteError}</p>}
     </div>
   )
 }
