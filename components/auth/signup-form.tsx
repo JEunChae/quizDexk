@@ -17,10 +17,14 @@ export function SignupForm() {
     e.preventDefault()
     setIsLoading(true)
     setError(null)
+    const savedEmail = email
+    const savedPassword = password
+    setEmail('')
+    setPassword('')
     const supabase = createClient()
-    const { data, error } = await supabase.auth.signUp({ email, password })
+    const { data, error } = await supabase.auth.signUp({ email: savedEmail, password: savedPassword })
     if (error) { setError(toKoreanError(error.message)); setIsLoading(false); return }
-    if (!data.session) { setEmail(''); setPassword(''); setEmailSent(true); setIsLoading(false); return }
+    if (!data.session) { setEmailSent(true); setIsLoading(false); return }
     router.refresh()
     router.push('/dashboard')
   }
