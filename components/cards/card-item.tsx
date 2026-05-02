@@ -44,26 +44,25 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
 
   return (
     <div className="py-0.5 grid" style={{ gridTemplateColumns: 'auto 1fr' }}>
-      {/* 불릿 (단어 행) */}
-      <span className="flex items-start pt-[0.25em] pr-2 row-span-2">
+      {/* 불릿 */}
+      <span className="flex items-start pt-[0.25em] pr-2">
         <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 block shrink-0" />
       </span>
-      {/* 단어 행: 한글이 밀리면 영어 시작 위치에서 줄바꿈 */}
-      <div className="flex flex-wrap items-baseline gap-x-2">
+      {/* 영어 — 한글 버튼: 한 줄에 다 들어오면 버튼 오른쪽 정렬, 밀리면 아래 왼쪽 정렬 */}
+      <div className="flex flex-wrap items-baseline gap-y-0.5">
         <span className="font-en font-bold text-slate-800 shrink-0">{card.front}</span>
-        <span className="text-slate-300 shrink-0 text-[0.8em]">—</span>
-        <span className="font-ko text-slate-700">{card.back}</span>
-      </div>
-      {/* 버튼 행: 항상 단어 아래, 영어와 같은 x 위치 */}
-      <div className="flex items-center gap-1.5 text-xs">
-        <span className={difficultyColor[card.difficulty]}>{difficultyLabel[card.difficulty]}</span>
-        <span className="text-stone-200">·</span>
-        <button onClick={() => setEditing(true)} className="text-stone-400">수정</button>
-        <span className="text-stone-300">|</span>
-        <button onClick={handleDelete} disabled={isDeleting} className="text-stone-400 disabled:opacity-50">
-          {isDeleting ? '...' : '삭제'}
-        </button>
-        {deleteError && <p className="text-rose-500">{deleteError}</p>}
+        <span className="text-slate-300 shrink-0 text-[0.8em] mx-2">—</span>
+        <span className="font-ko text-slate-700" style={{ marginRight: 'auto' }}>{card.back}</span>
+        <span className="shrink-0 flex items-center gap-1.5 text-xs pl-3">
+          <span className={difficultyColor[card.difficulty]}>{difficultyLabel[card.difficulty]}</span>
+          <span className="text-stone-200">·</span>
+          <button onClick={() => setEditing(true)} className="text-stone-400">수정</button>
+          <span className="text-stone-300">|</span>
+          <button onClick={handleDelete} disabled={isDeleting} className="text-stone-400 disabled:opacity-50">
+            {isDeleting ? '...' : '삭제'}
+          </button>
+          {deleteError && <p className="text-rose-500">{deleteError}</p>}
+        </span>
       </div>
     </div>
   )
