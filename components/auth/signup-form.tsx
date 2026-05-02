@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { toKoreanError } from '@/lib/utils/error-message'
@@ -12,7 +12,15 @@ export function SignupForm() {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [emailSent, setEmailSent] = useState(false)
-  const [formKey, setFormKey] = useState(0)
+  const emailRef = useRef<HTMLInputElement>(null)
+  const passwordRef = useRef<HTMLInputElement>(null)
+
+  function clearFields() {
+    setEmail('')
+    setPassword('')
+    if (emailRef.current) emailRef.current.value = ''
+    if (passwordRef.current) passwordRef.current.value = ''
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -20,7 +28,7 @@ export function SignupForm() {
     setError(null)
     const savedEmail = email
     const savedPassword = password
-    setFormKey(k => k + 1)
+    clearFields()
     const supabase = createClient()
     const { data, error } = await supabase.auth.signUp({ email: savedEmail, password: savedPassword })
     if (error) { setError(toKoreanError(error.message)); setIsLoading(false); return }
@@ -34,7 +42,7 @@ export function SignupForm() {
       <div className="w-full max-w-sm text-center space-y-3">
         <p className="text-3xl">📬</p>
         <h2 className="text-xl font-semibold text-stone-700">이메일을 확인해주세요</h2>
-        <p className="text-stone-400 text-sm">{email}로 인증 링크를 보냈습니다.</p>
+        <p className="text-stone-400 text-sm">인증 링크를 보냈습니다.</p>
       </div>
     )
   }
@@ -45,17 +53,21 @@ export function SignupForm() {
         <h1 className="text-4xl font-bold text-stone-800">quizDeck</h1>
         <p className="text-stone-400 mt-2 text-base">나만의 단어장</p>
       </div>
-      <form key={formKey} onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6" autoComplete="off">
         <div className="space-y-5">
           {error && <p className="text-sm text-stone-500">{error}</p>}
           <input
+            ref={emailRef}
             type="email" value={email} onChange={e => setEmail(e.target.value)}
             placeholder="이메일" required
+            autoComplete="off"
             className="input-note"
           />
           <input
+            ref={passwordRef}
             type="password" value={password} onChange={e => setPassword(e.target.value)}
             placeholder="비밀번호 (6자 이상)" required minLength={6}
+            autoComplete="new-password"
             className="input-note"
           />
         </div>
