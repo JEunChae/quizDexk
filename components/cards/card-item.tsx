@@ -43,21 +43,22 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
   }
 
   return (
-    <div className="py-0.5">
-      {/* 단어 줄 - 말줄임 없이 자연스럽게 wrap */}
-      <div className="flex items-baseline gap-2 flex-wrap">
-        <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 shrink-0 mt-1" />
-        <span className="font-en font-bold text-slate-800 shrink-0">
-          {card.front}
-        </span>
+    <div className="py-0.5 grid" style={{ gridTemplateColumns: 'auto 1fr' }}>
+      {/* 불릿 (row 1) */}
+      <span className="flex items-start pt-[0.25em] pr-2">
+        <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 block shrink-0" />
+      </span>
+      {/* 단어 (row 1) — 한글이 wrap되면 영어 시작 위치에서 시작 */}
+      <div className="flex flex-wrap items-baseline gap-x-2">
+        <span className="font-en font-bold text-slate-800 shrink-0">{card.front}</span>
         <span className="text-slate-300 shrink-0 text-[0.8em]">—</span>
-        <span className="font-ko text-slate-700">
-          {card.back}
-        </span>
+        <span className="font-ko text-slate-700">{card.back}</span>
       </div>
 
-      {/* 버튼 줄 */}
-      <div className="flex items-center gap-2 pl-5">
+      {/* 빈 칸 (row 2, col 1) */}
+      <span />
+      {/* 버튼 줄 (row 2, col 2) — 자동으로 영어와 같은 x 위치 */}
+      <div className="flex items-center gap-2">
         <span className={`text-xs ${difficultyColor[card.difficulty]}`}>
           {difficultyLabel[card.difficulty]}
         </span>
