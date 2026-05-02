@@ -39,6 +39,21 @@ body {
   line-height: 1.75rem;
 }
 
+@media (min-width: 640px) {
+  .notebook-paper {
+    background-image:
+      linear-gradient(to right, transparent 3rem, var(--margin-color) 3rem, var(--margin-color) 3.0625rem, transparent 3.0625rem),
+      repeating-linear-gradient(
+        transparent,
+        transparent 2rem,
+        var(--line-color) 2rem,
+        var(--line-color) calc(2rem + 1px)
+      );
+    padding-left: 4rem;
+    line-height: 2rem;
+  }
+}
+
 /* 버튼 */
 .btn-note {
   display: inline-flex;
