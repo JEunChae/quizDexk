@@ -47,11 +47,11 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
       {/* 단어 줄 - 말줄임 없이 자연스럽게 wrap */}
       <div className="flex items-baseline gap-2 flex-wrap">
         <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 shrink-0 mt-1" />
-        <span className="font-en font-bold text-base text-slate-800 shrink-0">
+        <span className="font-en font-bold text-slate-800 shrink-0">
           {card.front}
         </span>
-        <span className="text-slate-300 shrink-0 text-sm">—</span>
-        <span className="font-ko text-base text-slate-700">
+        <span className="text-slate-300 shrink-0 text-[0.8em]">—</span>
+        <span className="font-ko text-slate-700">
           {card.back}
         </span>
       </div>

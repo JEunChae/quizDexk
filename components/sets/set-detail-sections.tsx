@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { CardItem } from '@/components/cards/card-item'
 import { CardForm } from '@/components/cards/card-form'
 import { BulkAddForm } from '@/components/cards/bulk-add-form'
+import { useFontSize } from '@/hooks/use-font-size'
 import type { Card } from '@/types/database'
 
 type Section = 'cards' | 'add' | 'bulk'
@@ -27,9 +28,12 @@ function ChevronDown({ open }: { open: boolean }) {
   )
 }
 
+const FONT_CLASS = { sm: 'text-sm', base: 'text-base', lg: 'text-lg', xl: 'text-xl' }
+
 export function SetDetailSections({ cards, setId, onUpdate, onDelete, onDeleteAll, onAdd }: Props) {
   const [open, setOpen] = useState<Section | null>('cards')
   const [deletingAll, setDeletingAll] = useState(false)
+  const [fontSize, increaseFontSize, decreaseFontSize] = useFontSize()
 
   const toggle = (section: Section) =>
     setOpen(prev => (prev === section ? null : section))
@@ -53,17 +57,29 @@ export function SetDetailSections({ cards, setId, onUpdate, onDelete, onDeleteAl
               <ChevronDown open={open === 'cards'} />
             </div>
           </button>
+          <div className="flex items-center gap-1 ml-3">
+            <button
+              onClick={decreaseFontSize}
+              className="text-stone-400 text-xs px-1.5 py-0.5 rounded border border-stone-200 leading-none"
+              aria-label="글자 작게"
+            >A-</button>
+            <button
+              onClick={increaseFontSize}
+              className="text-stone-400 text-sm px-1.5 py-0.5 rounded border border-stone-200 leading-none"
+              aria-label="글자 크게"
+            >A+</button>
+          </div>
           {cards.length > 0 && (
             <button
               onClick={handleDeleteAll} disabled={deletingAll}
-              className="btn-note btn-ghost ml-4 text-sm text-stone-400 disabled:opacity-40"
+              className="btn-note btn-ghost ml-3 text-sm text-stone-400 disabled:opacity-40"
             >
               {deletingAll ? '삭제 중...' : '전체 삭제'}
             </button>
           )}
         </div>
         {open === 'cards' && (
-          <div className="notebook-paper pr-4 py-1">
+          <div className={`notebook-paper pr-4 py-1 ${FONT_CLASS[fontSize]}`}>
             {cards.length === 0 ? (
               <p className="text-stone-400 text-center py-6">아직 카드가 없습니다.</p>
             ) : (
