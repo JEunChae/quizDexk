@@ -12,7 +12,8 @@ export function SessionSizeControl({ totalCards }: { totalCards: number }) {
         min={5}
         max={500}
         onChange={e => setSessionSize(Number(e.target.value))}
-        className="w-20 text-sm text-stone-700 text-center input-note"
+        className="text-sm text-stone-700 text-center input-note"
+        style={{ width: '4rem' }}
       />
       <span className="text-sm text-stone-400">/ {totalCards}개</span>
     </div>
