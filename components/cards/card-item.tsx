@@ -15,7 +15,7 @@ function speak(text: string) {
 
 function SpeakerIcon() {
   return (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
       <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
       <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
@@ -50,7 +50,7 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
 
   if (editing) {
     return (
-      <div className="py-2 pr-4">
+      <div className="py-1 pr-4">
         <CardForm
           defaultValues={card}
           onSave={async (values) => { await onUpdate(card.id, values); setEditing(false) }}
@@ -61,34 +61,34 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
   }
 
   return (
-    <div className="py-0.5 grid" style={{ gridTemplateColumns: 'auto 1fr' }}>
-      {/* 불릿 */}
-      <span className="flex items-start pt-[0.25em] pr-2">
-        <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 block shrink-0" />
-      </span>
-
-      <div className="flex flex-col gap-y-0.5">
-        {/* 단어 줄: 탭하면 액션 토글 */}
-        <div
-          role="button"
-          onClick={() => setShowActions(v => !v)}
-          className="flex items-start gap-x-2 cursor-pointer w-full"
+    <div>
+      {/* 단어 줄: 탭하면 액션 토글 */}
+      <div
+        role="button"
+        onClick={() => setShowActions(v => !v)}
+        className="grid items-center gap-x-3 cursor-pointer"
+        style={{ gridTemplateColumns: 'auto 2fr 3fr auto' }}
+      >
+        <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 shrink-0 block" />
+        <span className="font-en font-bold text-slate-800 truncate">{card.front}</span>
+        <span className="font-ko text-slate-700 truncate">{card.back}</span>
+        <button
+          onClick={e => { e.stopPropagation(); speak(card.front) }}
+          className="text-slate-300 shrink-0"
+          aria-label="발음 듣기"
         >
-          <span className="font-en font-bold text-slate-800 shrink-0">{card.front}</span>
-          <span className="text-slate-300 shrink-0 text-[0.8em] pt-[0.15em]">—</span>
-          <span className="font-ko text-slate-700 flex-1 leading-snug">{card.back}</span>
-          <button
-            onClick={e => { e.stopPropagation(); speak(card.front) }}
-            className="text-slate-300 shrink-0 pt-[0.1em] ml-2"
-            aria-label="발음 듣기"
-          >
-            <SpeakerIcon />
-          </button>
-        </div>
+          <SpeakerIcon />
+        </button>
+      </div>
 
-        {/* 액션: 탭했을 때만 표시 */}
-        {showActions && (
-          <div className="flex items-center gap-1.5 text-xs">
+      {/* 액션: 탭했을 때만 표시 */}
+      {showActions && (
+        <div
+          className="grid items-center gap-x-3"
+          style={{ gridTemplateColumns: 'auto 1fr' }}
+        >
+          <span className="w-2.5 shrink-0" />
+          <div className="flex items-center gap-1.5 text-xs py-0.5">
             <span className={difficultyColor[card.difficulty]}>{difficultyLabel[card.difficulty]}</span>
             <span className="text-stone-200">·</span>
             <button
@@ -101,10 +101,10 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
               disabled={isDeleting}
               className="text-stone-400 disabled:opacity-50"
             >{isDeleting ? '...' : '삭제'}</button>
-            {deleteError && <p className="text-rose-500">{deleteError}</p>}
+            {deleteError && <span className="text-rose-500">{deleteError}</span>}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }
