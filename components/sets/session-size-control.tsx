@@ -27,7 +27,7 @@ export function SessionSizeControl({ totalCards }: { totalCards: number }) {
       <input
         type="number"
         value={draft}
-        min={5}
+        min={1}
         max={totalCards}
         onChange={e => setDraft(e.target.value)}
         onFocus={() => { focused.current = true }}

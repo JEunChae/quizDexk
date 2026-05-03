@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 
 const KEY = 'quiz_session_size'
 const DEFAULT = 20
-const MIN = 5
+const MIN = 1
 
 export function useSessionSize(max?: number): [number, (n: number) => void] {
   const [size, setSize] = useState(DEFAULT)
