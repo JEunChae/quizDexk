@@ -49,10 +49,9 @@ function InstallGuide() {
     return (
       <div className="mt-6 text-center">
         <p className="text-xs text-stone-400">
-          앱 설치는 <span className="text-stone-600 font-semibold">Chrome</span> 또는{' '}
-          <span className="text-stone-600 font-semibold">삼성 인터넷</span>에서 가능합니다
+          앱 설치는 <span className="text-stone-600 font-semibold">Chrome</span>에서 가능합니다
         </p>
-        <p className="text-xs text-stone-300 mt-1">우측 상단 ··· → 다른 브라우저로 열기</p>
+        <p className="text-xs text-stone-300 mt-1">우측 상단 ··· → Chrome으로 열기</p>
       </div>
     )
   }
@@ -72,7 +71,19 @@ function InstallGuide() {
     )
   }
 
-  // iOS: 수동 안내
+  // Android: Chrome 안내 (beforeinstallprompt 미지원 브라우저)
+  if (env === 'android') {
+    return (
+      <div className="mt-6 text-center">
+        <p className="text-xs text-stone-400">
+          앱 설치는 <span className="text-stone-600 font-semibold">Chrome</span>에서 가능합니다
+        </p>
+        <p className="text-xs text-stone-300 mt-1">Chrome 주소창 우측 ⋮ → 홈 화면에 추가</p>
+      </div>
+    )
+  }
+
+  // iOS: Safari 안내
   if (env === 'ios') {
     return (
       <div className="mt-6 text-center">
