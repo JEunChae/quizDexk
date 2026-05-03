@@ -123,7 +123,24 @@ export function BulkAddForm({ setId }: { setId: string }) {
       {/* CSV 업로드 */}
       {tab === 'csv' && (
         <div className="space-y-2">
-          <p className="text-xs text-stone-400">CSV: <code>앞면,뒷면</code> 형식 (헤더 없이)</p>
+          <div className="flex items-center justify-between">
+            <p className="text-xs text-stone-400">CSV: <code>앞면,뒷면</code> 형식 (헤더 없이)</p>
+            <button
+              onClick={() => {
+                const sample = 'apple,사과\nbanana,바나나\nvocabulary,어휘\nsubsequently,그 다음에\nacknowledge,인정하다'
+                const blob = new Blob([sample], { type: 'text/csv;charset=utf-8;' })
+                const url = URL.createObjectURL(blob)
+                const a = document.createElement('a')
+                a.href = url
+                a.download = 'sample.csv'
+                a.click()
+                URL.revokeObjectURL(url)
+              }}
+              className="text-xs text-stone-400 underline underline-offset-2"
+            >
+              샘플 다운로드
+            </button>
+          </div>
           <label className="flex flex-col items-center justify-center border border-dashed border-stone-300 rounded p-8 cursor-pointer">
             <span className="text-2xl mb-2">📂</span>
             <span className="text-sm text-stone-500">CSV 파일 선택</span>
