@@ -6,6 +6,23 @@ import { CardForm } from './card-form'
 const difficultyColor = { easy: 'text-emerald-500', medium: 'text-amber-500', hard: 'text-rose-500' }
 const difficultyLabel = { easy: '쉬움', medium: '보통', hard: '어려움' }
 
+function speak(text: string) {
+  window.speechSynthesis.cancel()
+  const u = new SpeechSynthesisUtterance(text)
+  u.lang = 'en-US'
+  window.speechSynthesis.speak(u)
+}
+
+function SpeakerIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+    </svg>
+  )
+}
+
 interface CardItemProps {
   card: Card
   onUpdate: (id: string, values: Partial<Pick<Card, 'front' | 'back' | 'difficulty'>>) => Promise<void>
@@ -52,14 +69,22 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
 
       <div className="flex flex-col gap-y-0.5">
         {/* 단어 줄: 탭하면 액션 토글 */}
-        <button
+        <div
+          role="button"
           onClick={() => setShowActions(v => !v)}
-          className="flex flex-wrap items-baseline gap-y-0.5 text-left w-full"
+          className="flex flex-wrap items-baseline gap-y-0.5 cursor-pointer"
         >
           <span className="font-en font-bold text-slate-800 shrink-0">{card.front}</span>
-          <span className="text-slate-300 shrink-0 text-[0.8em] mx-2">—</span>
+          <button
+            onClick={e => { e.stopPropagation(); speak(card.front) }}
+            className="text-slate-300 shrink-0 mx-1.5 self-center"
+            aria-label="발음 듣기"
+          >
+            <SpeakerIcon />
+          </button>
+          <span className="text-slate-300 shrink-0 text-[0.8em] mr-2">—</span>
           <span className="font-ko text-slate-700" style={{ marginRight: 'auto' }}>{card.back}</span>
-        </button>
+        </div>
 
         {/* 액션: 탭했을 때만 표시 */}
         {showActions && (
