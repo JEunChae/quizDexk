@@ -72,18 +72,18 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
         <div
           role="button"
           onClick={() => setShowActions(v => !v)}
-          className="flex flex-wrap items-baseline gap-y-0.5 cursor-pointer"
+          className="flex items-start gap-x-2 cursor-pointer w-full"
         >
           <span className="font-en font-bold text-slate-800 shrink-0">{card.front}</span>
+          <span className="text-slate-300 shrink-0 text-[0.8em] pt-[0.15em]">—</span>
+          <span className="font-ko text-slate-700 flex-1 leading-snug">{card.back}</span>
           <button
             onClick={e => { e.stopPropagation(); speak(card.front) }}
-            className="text-slate-300 shrink-0 mx-1.5 self-center"
+            className="text-slate-300 shrink-0 pt-[0.1em] ml-2"
             aria-label="발음 듣기"
           >
             <SpeakerIcon />
           </button>
-          <span className="text-slate-300 shrink-0 text-[0.8em] mr-2">—</span>
-          <span className="font-ko text-slate-700" style={{ marginRight: 'auto' }}>{card.back}</span>
         </div>
 
         {/* 액션: 탭했을 때만 표시 */}
