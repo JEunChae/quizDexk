@@ -13,7 +13,7 @@ export function ResultReport({ cards, results, onRetry, onBack }: {
   return (
     <div className="max-w-lg mx-auto space-y-6">
       <div className="bg-white rounded-2xl border border-slate-200 p-8 text-center shadow-sm">
-        <p className="text-6xl font-bold bg-gradient-to-r from-indigo-500 to-violet-500 bg-clip-text text-transparent">{score}점</p>
+        <p className="text-6xl font-bold text-stone-800">{score}점</p>
         <p className="text-slate-500 mt-2">{total}문제 중 {correct}개 정답</p>
         <div className="flex gap-6 justify-center mt-6">
           <div className="text-center">
@@ -41,8 +41,8 @@ export function ResultReport({ cards, results, onRetry, onBack }: {
         </div>
       )}
       <div className="flex gap-3 justify-center">
-        <button onClick={onRetry} className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl px-4 py-2 font-medium transition-colors">다시 시험</button>
-        <button onClick={onBack} className="bg-white border border-slate-200 hover:bg-slate-50 rounded-xl px-4 py-2 text-slate-700 transition-colors">세트로 돌아가기</button>
+        <button onClick={onRetry} className="btn-note btn-primary">다시 시험</button>
+        <button onClick={onBack} className="btn-note btn-secondary">세트로 돌아가기</button>
       </div>
     </div>
   )

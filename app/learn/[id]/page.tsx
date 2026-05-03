@@ -129,7 +129,7 @@ export default function LearnPage() {
   if (!loading && (resumeSessionId ? cards.length === 0 : allCards.length === 0)) return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
       <p className="text-slate-500">{resumeSessionId ? '이어할 카드가 없습니다. 학습이 완료됐어요!' : '카드가 없습니다.'}</p>
-      <Link href={`/sets/${setId}`} className="text-indigo-600 hover:underline font-medium">세트로 돌아가기</Link>
+      <Link href={`/sets/${setId}`} className="text-stone-500 hover:underline font-medium">세트로 돌아가기</Link>
     </div>
   )
 
@@ -180,7 +180,7 @@ export default function LearnPage() {
   return (
     <main className="max-w-2xl mx-auto px-6 py-8">
       <div className="flex justify-between items-center mb-6">
-        <Link href={`/sets/${setId}`} className="text-sm text-slate-500 hover:text-indigo-600 transition-colors">← 세트로</Link>
+        <Link href={`/sets/${setId}`} className="text-sm text-stone-400 btn-ghost px-0">← 세트로</Link>
         <p className="text-sm text-slate-500 font-medium">{index + 1} / {cards.length}</p>
       </div>
       {mode === 'flip' && <Flashcard card={card} onResult={handleResult} />}

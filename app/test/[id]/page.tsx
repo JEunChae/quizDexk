@@ -147,7 +147,7 @@ export default function TestPage() {
             key={opt}
             onClick={() => handleAnswer(opt === card.back)}
             disabled={submitting}
-            className="p-4 rounded-xl border border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50 text-left text-slate-900 disabled:opacity-50 transition-all"
+            className="p-4 rounded-xl border border-slate-200 bg-white hover:border-stone-400 text-left text-slate-900 disabled:opacity-50 transition-all"
           >
             {opt}
           </button>

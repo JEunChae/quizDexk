@@ -1,3 +1,4 @@
+'use client'
 import Link from 'next/link'
 import type { SessionWithSet } from '@/lib/supabase/queries/progress'
 
