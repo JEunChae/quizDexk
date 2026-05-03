@@ -45,17 +45,17 @@ function makeSvg(size) {
     stroke="#e5d648" stroke-width="${size * 0.018}" stroke-linecap="round"
   />
 
-  <!-- q 텍스트 -->
+  <!-- Q 텍스트 -->
   <text
-    x="50%" y="56%"
+    x="50%" y="50%"
     text-anchor="middle"
-    dominant-baseline="middle"
+    dominant-baseline="central"
     font-family="Georgia, serif"
     font-size="${textSize}"
     font-weight="bold"
-    fill="#292524"
+    fill="#7a5c38"
     letter-spacing="-2"
-  >q</text>
+  >Q</text>
 </svg>`
 }
 
