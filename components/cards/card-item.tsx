@@ -66,19 +66,25 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
       <div
         role="button"
         onClick={() => setShowActions(v => !v)}
-        className="grid items-center gap-x-3 cursor-pointer"
-        style={{ gridTemplateColumns: 'auto 2fr 3fr auto' }}
+        className="grid cursor-pointer"
+        style={{ gridTemplateColumns: 'auto 1fr' }}
       >
-        <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 shrink-0 block" />
-        <span className="font-en font-bold text-slate-800">{card.front}</span>
-        <span className="font-ko text-slate-700">{card.back}</span>
-        <button
-          onClick={e => { e.stopPropagation(); speak(card.front) }}
-          className="text-slate-300 shrink-0"
-          aria-label="발음 듣기"
-        >
-          <SpeakerIcon />
-        </button>
+        <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 shrink-0 block mt-[0.35em] mr-2" />
+        <div>
+          {/* 영어 + 스피커 */}
+          <div className="flex items-center justify-between gap-2">
+            <span className="font-en font-bold text-slate-800">{card.front}</span>
+            <button
+              onClick={e => { e.stopPropagation(); speak(card.front) }}
+              className="text-slate-300 shrink-0"
+              aria-label="발음 듣기"
+            >
+              <SpeakerIcon />
+            </button>
+          </div>
+          {/* 한글 */}
+          <div className="font-ko text-slate-600 text-[0.92em]">{card.back}</div>
+        </div>
       </div>
 
       {/* 액션: 탭했을 때만 표시 */}
