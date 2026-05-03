@@ -8,7 +8,7 @@ import { SetDetailSections } from '@/components/sets/set-detail-sections'
 import { SessionSizeControl } from '@/components/sets/session-size-control'
 import { PriorityInfo } from '@/components/sets/priority-info'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 
 export default async function SetDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -22,6 +22,7 @@ export default async function SetDetailPage({ params }: { params: Promise<{ id: 
     user ? getResultsBySet(user.id, id) : Promise.resolve([]),
   ])
   if (!set) notFound()
+  if (user?.id !== set.user_id) redirect(`/explore/${id}`)
 
   const progress = calculateProgress(cards, results)
 

@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { SetForm } from '@/components/sets/set-form'
-import { createClient } from '@/lib/supabase/client'
+import { createSetAction } from '@/app/sets/actions'
 import { useRouter } from 'next/navigation'
 import { toKoreanError } from '@/lib/utils/error-message'
 import type { FlashSet } from '@/types/database'
@@ -13,15 +13,8 @@ export default function NewSetPage() {
 
   async function handleSubmit(values: Pick<FlashSet, 'title' | 'folder' | 'tags' | 'is_public'>) {
     setError(null)
-    const supabase = createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) { setError('로그인이 필요합니다'); return }
-    const { data, error: insertError } = await supabase
-      .from('sets')
-      .insert({ ...values, user_id: user.id })
-      .select()
-      .single()
-    if (insertError || !data) { setError(toKoreanError(insertError?.message ?? '', '저장에 실패했습니다')); throw insertError }
+    const { data, error: actionError } = await createSetAction(values)
+    if (actionError || !data) { setError(toKoreanError(actionError ?? '', '저장에 실패했습니다')); return }
     router.push(`/sets/${data.id}`)
   }
 

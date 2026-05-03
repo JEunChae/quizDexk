@@ -35,13 +35,17 @@ export async function createSet(values: Pick<FlashSet, 'title' | 'folder' | 'tag
 
 export async function updateSet(id: string, values: Partial<Pick<FlashSet, 'title' | 'folder' | 'tags' | 'is_public'>>): Promise<void> {
   const supabase = await createClient()
-  const { error } = await supabase.from('sets').update(values).eq('id', id)
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Not authenticated')
+  const { error } = await supabase.from('sets').update(values).eq('id', id).eq('user_id', user.id)
   if (error) throw error
 }
 
 export async function deleteSet(id: string): Promise<void> {
   const supabase = await createClient()
-  const { error } = await supabase.from('sets').delete().eq('id', id)
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Not authenticated')
+  const { error } = await supabase.from('sets').delete().eq('id', id).eq('user_id', user.id)
   if (error) throw error
 }
 

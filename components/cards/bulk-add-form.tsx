@@ -1,7 +1,7 @@
 'use client'
-import { useRef, useState, useMemo } from 'react'
+import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
+import { bulkInsertCards } from '@/app/sets/actions'
 import { toKoreanError } from '@/lib/utils/error-message'
 
 type ParsedCard = { front: string; back: string }
@@ -43,7 +43,6 @@ function parseText(text: string): ParsedCard[] {
 
 export function BulkAddForm({ setId, onSuccess }: { setId: string; onSuccess?: () => void }) {
   const router = useRouter()
-  const supabase = useMemo(() => createClient(), [])
   const [tab, setTab] = useState<'text' | 'csv'>('text')
   const [text, setText] = useState('')
   const [preview, setPreview] = useState<ParsedCard[]>([])
@@ -77,9 +76,9 @@ export function BulkAddForm({ setId, onSuccess }: { setId: string; onSuccess?: (
     setLoading(true)
     setError(null)
     const rows = preview.map(c => ({ set_id: setId, front: c.front, back: c.back, difficulty: 'medium' as const }))
-    const { error } = await supabase.from('cards').insert(rows)
+    const { error } = await bulkInsertCards(rows)
     setLoading(false)
-    if (error) { setError(toKoreanError(error.message, '카드 저장에 실패했습니다')); return }
+    if (error) { setError(toKoreanError(error, '카드 저장에 실패했습니다')); return }
     router.refresh()
     onSuccess?.()
   }
