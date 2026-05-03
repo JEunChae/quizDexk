@@ -1,30 +1,67 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { toKoreanError } from '@/lib/utils/error-message'
 import { useRouter } from 'next/navigation'
 
 function InstallGuide() {
-  const [open, setOpen] = useState(false)
+  const [prompt, setPrompt] = useState<any>(null)
+  const [installed, setInstalled] = useState(false)
+  const [showGuide, setShowGuide] = useState(false)
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      e.preventDefault()
+      setPrompt(e)
+    }
+    window.addEventListener('beforeinstallprompt', handler)
+    window.addEventListener('appinstalled', () => setInstalled(true))
+    return () => window.removeEventListener('beforeinstallprompt', handler)
+  }, [])
+
+  async function handleInstall() {
+    if (!prompt) return
+    prompt.prompt()
+    const { outcome } = await prompt.userChoice
+    if (outcome === 'accepted') setInstalled(true)
+    setPrompt(null)
+  }
+
+  if (installed) {
+    return <p className="mt-6 text-center text-xs text-stone-400">설치 완료 ✓</p>
+  }
+
+  // Android/Chrome: 직접 설치 버튼
+  if (prompt) {
+    return (
+      <div className="mt-6 text-center">
+        <button
+          type="button"
+          onClick={handleInstall}
+          className="text-xs text-stone-500 border border-stone-300 rounded px-3 py-1.5"
+        >
+          홈 화면에 앱 설치
+        </button>
+      </div>
+    )
+  }
+
+  // iOS: 수동 안내
   return (
     <div className="mt-6 text-center">
       <button
         type="button"
-        onClick={() => setOpen(v => !v)}
+        onClick={() => setShowGuide(v => !v)}
         className="text-xs text-stone-400 underline underline-offset-2"
       >
         앱으로 설치하는 방법
       </button>
-      {open && (
+      {showGuide && (
         <div className="mt-3 text-left text-xs text-stone-500 border border-stone-200 rounded p-4 space-y-3">
           <div>
             <p className="font-semibold text-stone-600 mb-1">iPhone · iPad (Safari)</p>
             <p>하단 공유 버튼 <span className="font-mono">□↑</span> → <span className="text-stone-700">홈 화면에 추가</span></p>
-          </div>
-          <div>
-            <p className="font-semibold text-stone-600 mb-1">Android (Chrome)</p>
-            <p>우측 상단 <span className="font-mono">⋮</span> → <span className="text-stone-700">홈 화면에 추가</span> 또는 <span className="text-stone-700">앱 설치</span></p>
           </div>
           <p className="text-stone-400 pt-1 border-t border-stone-100">설치 후 주소창 없이 앱처럼 실행됩니다.</p>
         </div>
