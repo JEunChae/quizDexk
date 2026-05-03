@@ -91,7 +91,16 @@ export function LoginForm() {
   return (
     <div className="w-full max-w-sm">
       <div className="text-center mb-10">
-        <h1 className="text-4xl font-bold text-stone-800">quizDeck</h1>
+        <h1
+          className="text-4xl font-bold text-stone-800 inline-block"
+          style={{
+            backgroundColor: '#fef9c3',
+            padding: '2px 16px 6px',
+            boxShadow: '3px 3px 7px rgba(0,0,0,0.13)',
+            transform: 'rotate(-1.5deg)',
+            borderRadius: '1px',
+          }}
+        >quizDeck</h1>
         <p className="text-stone-400 mt-2 text-base">나만의 단어장</p>
       </div>
       <form onSubmit={handleSubmit} className="space-y-6">

@@ -35,7 +35,21 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     <html lang="ko" className={memoment.variable}>
       <body className="min-h-screen" style={{ backgroundColor: '#fafaf5' }}>
         <nav className="border-b border-stone-200 px-6 py-3.5 flex items-center justify-between sticky top-0 z-10" style={{ backgroundColor: '#fafaf5' }}>
-          <Link href="/dashboard" className="font-bold text-stone-800 tracking-tight whitespace-nowrap" style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.25rem)' }}>quizDeck</Link>
+          <Link
+            href="/dashboard"
+            className="whitespace-nowrap font-bold text-stone-800 tracking-tight"
+            style={{
+              fontSize: 'clamp(0.9rem, 3.5vw, 1.25rem)',
+              backgroundColor: '#fef9c3',
+              padding: '1px 10px 3px',
+              display: 'inline-block',
+              boxShadow: '2px 2px 5px rgba(0,0,0,0.13)',
+              transform: 'rotate(-1.5deg)',
+              borderRadius: '1px',
+            }}
+          >
+            quizDeck
+          </Link>
           <div className="flex items-center text-stone-500" style={{ fontSize: 'clamp(0.72rem, 2.5vw, 1rem)', gap: 'clamp(0.5rem, 3vw, 1.25rem)' }}>
             <Link href="/explore" className="hover:text-stone-900 transition-colors whitespace-nowrap" aria-label="탐색">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
