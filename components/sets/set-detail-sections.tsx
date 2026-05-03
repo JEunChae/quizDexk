@@ -31,7 +31,7 @@ function ChevronDown({ open }: { open: boolean }) {
 const FONT_CLASS = { sm: 'text-sm', base: 'text-base', lg: 'text-lg', xl: 'text-xl' }
 
 export function SetDetailSections({ cards, setId, onUpdate, onDelete, onDeleteAll, onAdd }: Props) {
-  const [open, setOpen] = useState<Section | null>('cards')
+  const [open, setOpen] = useState<Section | null>(null)
   const [deletingAll, setDeletingAll] = useState(false)
   const [fontSize, increaseFontSize, decreaseFontSize] = useFontSize()
 
