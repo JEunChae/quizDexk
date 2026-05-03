@@ -44,7 +44,7 @@ function PublicCardItem({ card }: { card: Card }) {
         <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 shrink-0 block mt-[0.35rem]" />
         <span className="font-en font-bold text-slate-800 whitespace-nowrap">{card.front}</span>
         {lang && (
-          <button onClick={speak} className="text-slate-300 shrink-0" aria-label="발음 듣기">
+          <button onClick={speak} className="text-slate-500 shrink-0" aria-label="발음 듣기">
             <SpeakerIcon />
           </button>
         )}

@@ -142,9 +142,9 @@ export default function TestPage() {
         {card.front}
       </div>
       <div className="grid grid-cols-2 gap-3">
-        {mcqOptions.map(opt => (
+        {mcqOptions.map((opt, i) => (
           <button
-            key={opt}
+            key={i}
             onClick={() => handleAnswer(opt === card.back)}
             disabled={submitting}
             className="p-4 rounded-xl border border-slate-200 bg-white hover:border-stone-400 text-left text-slate-900 disabled:opacity-50 transition-all"

@@ -8,10 +8,10 @@ export function PriorityInfo() {
     <span className="relative inline-flex items-center">
       <button
         onClick={() => setOpen(o => !o)}
-        className="text-stone-300 text-xs ml-1 leading-none"
+        className="text-stone-600 text-xs ml-1 leading-none font-bold"
         aria-label="학습 순서 기준 보기"
       >
-        ⓘ
+        !
       </button>
       {open && (
         <div

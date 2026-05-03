@@ -59,7 +59,7 @@ export default async function SetDetailPage({ params }: { params: Promise<{ id: 
         </div>
         <div className="flex gap-2 mt-1">
           <Link href={`/learn/${set.id}`} className="btn-note btn-primary">학습</Link>
-          <Link href={`/test/${set.id}`} className="btn-note btn-secondary">시험</Link>
+          <Link href={`/test/${set.id}`} className="btn-note btn-secondary">테스트</Link>
         </div>
       </div>
 

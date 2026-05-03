@@ -37,7 +37,12 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <nav className="border-b border-stone-200 px-6 py-3.5 flex items-center justify-between sticky top-0 z-10" style={{ backgroundColor: '#fafaf5' }}>
           <Link href="/dashboard" className="font-bold text-stone-800 tracking-tight whitespace-nowrap" style={{ fontSize: 'clamp(0.9rem, 3.5vw, 1.25rem)' }}>quizDeck</Link>
           <div className="flex items-center text-stone-500" style={{ fontSize: 'clamp(0.72rem, 2.5vw, 1rem)', gap: 'clamp(0.5rem, 3vw, 1.25rem)' }}>
-            <Link href="/explore" className="hover:text-stone-900 transition-colors whitespace-nowrap">탐색</Link>
+            <Link href="/explore" className="hover:text-stone-900 transition-colors whitespace-nowrap" aria-label="탐색">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+              </svg>
+            </Link>
             {user && (
               <>
                 <Link href="/dashboard" className="hover:text-stone-900 transition-colors whitespace-nowrap">내 단어장</Link>

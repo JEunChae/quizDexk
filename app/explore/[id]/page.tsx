@@ -24,9 +24,9 @@ export default async function ExploreSetPage({ params }: { params: Promise<{ id:
     const supabase2 = await createClient()
     const { data: { user: actionUser } } = await supabase2.auth.getUser()
     if (!actionUser) redirect('/login')
-    const newSet = await copySetToUser(id)
+    await copySetToUser(id)
     revalidatePath('/dashboard')
-    redirect(`/sets/${newSet.id}`)
+    redirect('/dashboard')
   }
 
   return (

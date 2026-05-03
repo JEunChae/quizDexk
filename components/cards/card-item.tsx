@@ -84,7 +84,7 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
         {lang && (
           <button
             onClick={e => { e.stopPropagation(); speak(card.front, lang) }}
-            className="text-slate-300 shrink-0"
+            className="text-slate-500 shrink-0"
             aria-label="발음 듣기"
           >
             <SpeakerIcon />

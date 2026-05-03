@@ -184,7 +184,7 @@ export default function LearnPage() {
         <p className="text-sm text-slate-500 font-medium">{index + 1} / {cards.length}</p>
       </div>
       {mode === 'flip' && <Flashcard card={card} onResult={handleResult} />}
-      {mode === 'mcq' && <MCQCard card={card} allCards={allCards} onResult={handleResult} />}
+      {mode === 'mcq' && <MCQCard key={card.id} card={card} allCards={allCards} onResult={handleResult} />}
       {mode === 'short_answer' && <ShortAnswerCard card={card} onResult={handleResult} />}
     </main>
   )
