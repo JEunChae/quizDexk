@@ -1,6 +1,15 @@
 'use client'
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
 import type { SessionWithSet } from '@/lib/supabase/queries/progress'
+
+function FormattedDate({ dateString }: { dateString: string }) {
+  const [formatted, setFormatted] = useState('')
+  useEffect(() => {
+    setFormatted(new Date(dateString).toLocaleString('ko-KR'))
+  }, [dateString])
+  return <span>{formatted}</span>
+}
 
 const modeLabel: Record<string, string> = { flip: '카드 뒤집기', mcq: '객관식', short_answer: '주관식', exam: '시험' }
 
@@ -25,7 +34,7 @@ export function HistoryList({ sessions }: { sessions: SessionWithSet[] }) {
               <p className="text-sm text-stone-400 mb-0.5">{s.set_title}</p>
             )}
             <p className="text-stone-700">{modeLabel[s.mode] ?? s.mode}</p>
-            <p className="text-sm text-stone-400 mt-0.5">{new Date(s.started_at).toLocaleString('ko-KR')}</p>
+            <p className="text-sm text-stone-400 mt-0.5"><FormattedDate dateString={s.started_at} /></p>
           </div>
           <div className="flex items-center gap-2">
             {s.ended_at ? (
