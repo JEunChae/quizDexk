@@ -23,6 +23,11 @@ export async function getUserSessions(userId: string): Promise<SessionWithSet[]>
 
 export async function getResultsBySession(sessionId: string): Promise<CardResult[]> {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Not authenticated')
+  const { data: session } = await supabase
+    .from('study_sessions').select('id').eq('id', sessionId).eq('user_id', user.id).single()
+  if (!session) throw new Error('Not authorized')
   const { data, error } = await supabase.from('card_results').select('*').eq('session_id', sessionId)
   if (error) throw error
   return data ?? []

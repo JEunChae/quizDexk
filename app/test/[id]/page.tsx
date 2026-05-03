@@ -58,7 +58,7 @@ export default function TestPage() {
         sessId = sess?.id ?? null
       }
 
-      if (drawn.length === 0) { router.push(`/sets/${setId}`); return }
+      if (drawn.length < 2) { router.push(`/sets/${setId}`); return }
       setCards(drawn)
       setDbSessionId(sessId)
       const examSess = startExam(createExamSession(drawn, TIME_LIMIT))

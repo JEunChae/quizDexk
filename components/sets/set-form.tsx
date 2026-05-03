@@ -30,12 +30,12 @@ export function SetForm({ defaultValues, onSubmit, submitLabel = '저장' }: Set
       <div>
         <label className="block text-sm text-stone-400 mb-1">단어장 이름 *</label>
         <input value={title} onChange={e => setTitle(e.target.value)}
-          placeholder="예) 수능 영어 1단원" required className="input-note" />
+          placeholder="예) 수능 영어 1단원" required maxLength={100} className="input-note" />
       </div>
       <div>
         <label className="block text-sm text-stone-400 mb-1">태그</label>
         <input value={tagsInput} onChange={e => setTagsInput(e.target.value)}
-          placeholder="예) 영어, 수능, 단어" className="input-note" />
+          placeholder="예) 영어, 수능, 단어" maxLength={200} className="input-note" />
       </div>
       <label className="flex items-center gap-2 text-stone-600 text-sm cursor-pointer">
         <input type="checkbox" checked={isPublic} onChange={e => setIsPublic(e.target.checked)} />

@@ -14,7 +14,9 @@ export async function createClient() {
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, options)
             )
-          } catch {}
+          } catch {
+            // 서버 컴포넌트에서는 쿠키 설정이 불가능 — Supabase SSR 패턴상 의도된 무시
+          }
         },
       },
     }

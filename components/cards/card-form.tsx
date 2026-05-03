@@ -37,12 +37,12 @@ export function CardForm({ onSave, defaultValues, onCancel }: CardFormProps) {
       <div className="flex flex-col gap-4">
         <input
           value={front} onChange={e => setFront(e.target.value)}
-          placeholder="단어 (앞면)" required
+          placeholder="단어 (앞면)" required maxLength={200}
           className="input-note"
         />
         <input
           value={back} onChange={e => setBack(e.target.value)}
-          placeholder="뜻 (뒷면)" required
+          placeholder="뜻 (뒷면)" required maxLength={200}
           className="input-note"
         />
         <select
