@@ -46,8 +46,9 @@ export default function LearnPage() {
       if (resumeSessionId) {
         const [{ data: sessionResults }, { data: sessionData }] = await Promise.all([
           supabase.from('card_results').select('card_id').eq('session_id', resumeSessionId),
-          supabase.from('study_sessions').select('mode').eq('id', resumeSessionId).single(),
+          supabase.from('study_sessions').select('mode').eq('id', resumeSessionId).eq('user_id', user.id).single(),
         ])
+        if (!sessionData) { setLoading(false); router.push(`/sets/${setId}`); return }
         const answeredIds = new Set((sessionResults ?? []).map(r => r.card_id))
         const remaining = all.filter(c => !answeredIds.has(c.id))
         setCards(remaining)

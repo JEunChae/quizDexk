@@ -34,7 +34,7 @@ export async function deleteCard(id: string): Promise<void> {
   if (!user) throw new Error('Not authenticated')
   // 카드가 본인 소유 세트에 속하는지 확인 후 삭제
   const { data: card } = await supabase.from('cards').select('set_id').eq('id', id).single()
-  if (!card) return
+  if (!card) throw new Error('Card not found')
   const { data: set } = await supabase.from('sets').select('id').eq('id', card.set_id).eq('user_id', user.id).single()
   if (!set) throw new Error('Not authorized')
   const { error } = await supabase.from('cards').delete().eq('id', id)
@@ -43,6 +43,10 @@ export async function deleteCard(id: string): Promise<void> {
 
 export async function deleteAllCardsBySetId(setId: string): Promise<void> {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Not authenticated')
+  const { data: set } = await supabase.from('sets').select('id').eq('id', setId).eq('user_id', user.id).single()
+  if (!set) throw new Error('Not authorized')
   const { error } = await supabase.from('cards').delete().eq('set_id', setId)
   if (error) throw error
 }

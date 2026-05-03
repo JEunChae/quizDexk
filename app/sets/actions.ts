@@ -15,7 +15,9 @@ export async function bulkInsertCards(rows: CardRow[]): Promise<{ error?: string
   const { data: set } = await supabase.from('sets').select('id').eq('id', setId).eq('user_id', user.id).single()
   if (!set) return { error: '권한이 없습니다' }
 
-  const { error } = await supabase.from('cards').insert(rows)
+  // 클라이언트가 보낸 set_id를 신뢰하지 않고 검증된 setId로 덮어씀
+  const safeRows = rows.map(r => ({ ...r, set_id: setId }))
+  const { error } = await supabase.from('cards').insert(safeRows)
   if (error) return { error: error.message }
   return {}
 }

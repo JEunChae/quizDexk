@@ -40,6 +40,9 @@ export default function TestPage() {
       let sessId: string | null
 
       if (resumeSessionId) {
+        const { data: ownSession } = await supabase
+          .from('study_sessions').select('id').eq('id', resumeSessionId).eq('user_id', user.id).single()
+        if (!ownSession) { router.push(`/sets/${setId}`); return }
         const { data: sessionResults } = await supabase
           .from('card_results').select('card_id').eq('session_id', resumeSessionId)
         const answeredIds = new Set((sessionResults ?? []).map(r => r.card_id))

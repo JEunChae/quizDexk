@@ -24,9 +24,10 @@ export async function getSetById(id: string): Promise<FlashSet | null> {
 export async function createSet(values: Pick<FlashSet, 'title' | 'folder' | 'tags' | 'is_public'>): Promise<FlashSet> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Not authenticated')
   const { data, error } = await supabase
     .from('sets')
-    .insert({ ...values, user_id: user!.id })
+    .insert({ ...values, user_id: user.id })
     .select()
     .single()
   if (error) throw error
@@ -70,6 +71,7 @@ export async function copySetToUser(sourceSetId: string): Promise<FlashSet> {
     supabase.from('cards').select('*').eq('set_id', sourceSetId),
   ])
   if (!sourceSet) throw new Error('Set not found')
+  if (!sourceSet.is_public) throw new Error('Not authorized')
 
   const { data: newSet, error: setError } = await supabase
     .from('sets')

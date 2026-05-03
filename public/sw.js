@@ -3,7 +3,6 @@ const CACHE = 'quizdeck-v1'
 const STATIC = [
   '/',
   '/explore',
-  '/offline',
 ]
 
 self.addEventListener('install', e => {
@@ -27,7 +26,7 @@ self.addEventListener('fetch', e => {
   // HTML 페이지 (navigate) → 항상 네트워크 우선, 캐싱 안 함
   if (e.request.mode === 'navigate') {
     e.respondWith(
-      fetch(e.request).catch(() => caches.match('/offline') ?? new Response('오프라인 상태입니다.', { status: 503 }))
+      fetch(e.request).catch(() => new Response('오프라인 상태입니다.', { status: 503 }))
     )
     return
   }
@@ -48,7 +47,7 @@ self.addEventListener('fetch', e => {
         const clone = res.clone()
         caches.open(CACHE).then(c => c.put(e.request, clone))
         return res
-      }).catch(() => caches.match('/offline') ?? new Response('오프라인 상태입니다.', { status: 503 }))
+      }).catch(() => new Response('오프라인 상태입니다.', { status: 503 }))
     })
   )
 })
