@@ -4,6 +4,7 @@ import Link from 'next/link'
 import localFont from 'next/font/local'
 import { createClient } from '@/lib/supabase/server'
 import { LogoutButton } from '@/components/logout-button'
+import { PwaRegister } from '@/components/pwa-register'
 import './globals.css'
 
 const memoment = localFont({
@@ -14,6 +15,16 @@ const memoment = localFont({
 export const metadata: Metadata = {
   title: 'quizDeck',
   description: '플래시카드 기반 학습 앱',
+  manifest: '/manifest.webmanifest',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'quizDeck',
+  },
+  other: {
+    'mobile-web-app-capable': 'yes',
+  },
+  themeColor: '#292524',
 }
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
@@ -38,6 +49,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           </div>
         </nav>
         <main>{children}</main>
+        <PwaRegister />
       </body>
     </html>
   )
