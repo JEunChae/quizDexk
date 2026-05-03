@@ -66,15 +66,17 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
       <div
         role="button"
         onClick={() => setShowActions(v => !v)}
-        className="grid items-baseline gap-x-3 cursor-pointer"
-        style={{ gridTemplateColumns: 'auto 2fr 3fr auto' }}
+        className="grid items-start gap-x-3 cursor-pointer"
+        style={{ gridTemplateColumns: 'auto 1fr auto' }}
       >
-        <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 shrink-0 block" />
-        <span className="font-en font-bold text-slate-800">{card.front}</span>
-        <span className="font-ko text-slate-700">{card.back}</span>
+        <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 shrink-0 block mt-[0.35rem]" />
+        <div className="flex flex-wrap items-baseline gap-x-3">
+          <span className="font-en font-bold text-slate-800 whitespace-nowrap">{card.front}</span>
+          <span className="font-ko text-slate-700 break-words min-w-0">{card.back}</span>
+        </div>
         <button
           onClick={e => { e.stopPropagation(); speak(card.front) }}
-          className="text-slate-300 shrink-0"
+          className="text-slate-300 shrink-0 mt-[0.35rem]"
           aria-label="발음 듣기"
         >
           <SpeakerIcon />
