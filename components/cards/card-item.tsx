@@ -71,7 +71,7 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
       >
         <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 shrink-0 block" />
         <span className="font-en font-bold text-slate-800 truncate">{card.front}</span>
-        <span className="font-ko text-slate-700 truncate">{card.back}</span>
+        <span className="font-ko text-slate-700">{card.back}</span>
         <button
           onClick={e => { e.stopPropagation(); speak(card.front) }}
           className="text-slate-300 shrink-0"
