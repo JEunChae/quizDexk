@@ -28,7 +28,12 @@ function ChevronDown({ open }: { open: boolean }) {
   )
 }
 
-const FONT_CLASS = { sm: 'text-sm', base: 'text-base', lg: 'text-lg', xl: 'text-xl' }
+const FONT_CLASS = {
+  sm:   'text-[clamp(0.65rem,2vw,0.875rem)]',
+  base: 'text-[clamp(0.75rem,2.5vw,1rem)]',
+  lg:   'text-[clamp(0.875rem,3vw,1.125rem)]',
+  xl:   'text-[clamp(1rem,3.5vw,1.25rem)]',
+}
 
 export function SetDetailSections({ cards, setId, onUpdate, onDelete, onDeleteAll, onAdd }: Props) {
   const [open, setOpen] = useState<Section | null>(null)
@@ -79,14 +84,25 @@ export function SetDetailSections({ cards, setId, onUpdate, onDelete, onDeleteAl
           )}
         </div>
         {open === 'cards' && (
-          <div className={`notebook-paper pr-4 py-1 ${FONT_CLASS[fontSize]}`}>
-            {cards.length === 0 ? (
-              <p className="text-stone-400 text-center py-6">아직 카드가 없습니다.</p>
-            ) : (
-              cards.map(card => (
-                <CardItem key={card.id} card={card} onUpdate={onUpdate} onDelete={onDelete} />
-              ))
-            )}
+          <div className="overflow-x-auto">
+            <div
+              className={`notebook-paper pr-4 py-1 ${FONT_CLASS[fontSize]}`}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'auto auto',
+                columnGap: '1rem',
+                width: 'max-content',
+                minWidth: '100%',
+              }}
+            >
+              {cards.length === 0 ? (
+                <p className="text-stone-400 text-center py-6" style={{ gridColumn: 'span 2' }}>아직 카드가 없습니다.</p>
+              ) : (
+                cards.map(card => (
+                  <CardItem key={card.id} card={card} onUpdate={onUpdate} onDelete={onDelete} />
+                ))
+              )}
+            </div>
           </div>
         )}
       </div>
@@ -99,7 +115,7 @@ export function SetDetailSections({ cards, setId, onUpdate, onDelete, onDeleteAl
         </button>
         {open === 'add' && (
           <div className="px-4 pb-5 pt-3 border-t border-stone-100">
-            <CardForm onSave={onAdd} />
+            <CardForm onSave={async (values) => { await onAdd(values); setOpen(null) }} />
           </div>
         )}
       </div>
@@ -112,7 +128,7 @@ export function SetDetailSections({ cards, setId, onUpdate, onDelete, onDeleteAl
         </button>
         {open === 'bulk' && (
           <div className="px-4 pb-5 pt-3 border-t border-stone-100">
-            <BulkAddForm setId={setId} />
+            <BulkAddForm setId={setId} onSuccess={() => setOpen(null)} />
           </div>
         )}
       </div>

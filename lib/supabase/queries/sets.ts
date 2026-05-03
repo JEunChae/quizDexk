@@ -44,3 +44,41 @@ export async function deleteSet(id: string): Promise<void> {
   const { error } = await supabase.from('sets').delete().eq('id', id)
   if (error) throw error
 }
+
+export async function getPublicSets(): Promise<FlashSet[]> {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('sets')
+    .select('*')
+    .eq('is_public', true)
+    .order('created_at', { ascending: false })
+  if (error) throw error
+  return data
+}
+
+export async function copySetToUser(sourceSetId: string): Promise<FlashSet> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Not authenticated')
+
+  const [{ data: sourceSet }, { data: sourceCards }] = await Promise.all([
+    supabase.from('sets').select('*').eq('id', sourceSetId).single(),
+    supabase.from('cards').select('*').eq('set_id', sourceSetId),
+  ])
+  if (!sourceSet) throw new Error('Set not found')
+
+  const { data: newSet, error: setError } = await supabase
+    .from('sets')
+    .insert({ title: sourceSet.title, folder: sourceSet.folder, tags: sourceSet.tags, is_public: false, user_id: user.id })
+    .select().single()
+  if (setError) throw setError
+
+  if (sourceCards && sourceCards.length > 0) {
+    const cards = sourceCards.map((c: import('@/types/database').Card) => ({
+      set_id: newSet.id, front: c.front, back: c.back, difficulty: c.difficulty,
+    }))
+    await supabase.from('cards').insert(cards)
+  }
+
+  return newSet
+}

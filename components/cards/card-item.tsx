@@ -6,10 +6,18 @@ import { CardForm } from './card-form'
 const difficultyColor = { easy: 'text-emerald-500', medium: 'text-amber-500', hard: 'text-rose-500' }
 const difficultyLabel = { easy: '쉬움', medium: '보통', hard: '어려움' }
 
-function speak(text: string) {
+function detectLang(text: string): string | null {
+  if (/[가-힣ㄱ-ㅣ]/.test(text)) return null
+  if (/[぀-ヿ]/.test(text)) return 'ja-JP'
+  if (/[一-鿿]/.test(text)) return 'zh-CN'
+  if (/[a-zA-Z]/.test(text)) return 'en-US'
+  return null
+}
+
+function speak(text: string, lang: string) {
   window.speechSynthesis.cancel()
   const u = new SpeechSynthesisUtterance(text)
-  u.lang = 'en-US'
+  u.lang = lang
   window.speechSynthesis.speak(u)
 }
 
@@ -50,61 +58,55 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
 
   if (editing) {
     return (
-      <div className="py-1 pr-4">
-        <CardForm
-          defaultValues={card}
-          onSave={async (values) => { await onUpdate(card.id, values); setEditing(false) }}
-          onCancel={() => setEditing(false)}
-        />
+      <div style={{ display: 'contents' }}>
+        <div style={{ gridColumn: 'span 2' }} className="py-1 pr-4">
+          <CardForm
+            defaultValues={card}
+            onSave={async (values) => { await onUpdate(card.id, values); setEditing(false) }}
+            onCancel={() => setEditing(false)}
+          />
+        </div>
       </div>
     )
   }
 
+  const lang = detectLang(card.front)
+
   return (
-    <div>
-      {/* 단어 줄: 탭하면 액션 토글 */}
+    <div style={{ display: 'contents' }}>
       <div
         role="button"
         onClick={() => setShowActions(v => !v)}
-        className="grid items-start gap-x-3 cursor-pointer"
-        style={{ gridTemplateColumns: 'auto 1fr auto' }}
+        className="flex items-center gap-2.5 cursor-pointer"
       >
         <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 shrink-0 block mt-[0.35rem]" />
-        <div className="flex flex-wrap items-baseline gap-x-3">
-          <span className="font-en font-bold text-slate-800 whitespace-nowrap">{card.front}</span>
-          <span className="font-ko text-slate-700 break-words min-w-0">{card.back}</span>
-        </div>
-        <button
-          onClick={e => { e.stopPropagation(); speak(card.front) }}
-          className="text-slate-300 shrink-0 mt-[0.35rem]"
-          aria-label="발음 듣기"
-        >
-          <SpeakerIcon />
-        </button>
+        <span className="font-en font-bold text-slate-800 whitespace-nowrap">{card.front}</span>
+        {lang && (
+          <button
+            onClick={e => { e.stopPropagation(); speak(card.front, lang) }}
+            className="text-slate-300 shrink-0"
+            aria-label="발음 듣기"
+          >
+            <SpeakerIcon />
+          </button>
+        )}
       </div>
+      <span
+        role="button"
+        onClick={() => setShowActions(v => !v)}
+        className="font-ko text-slate-700 whitespace-nowrap cursor-pointer"
+      >{card.back}</span>
 
-      {/* 액션: 탭했을 때만 표시 */}
       {showActions && (
-        <div
-          className="grid items-center gap-x-3"
-          style={{ gridTemplateColumns: 'auto 1fr' }}
-        >
-          <span className="w-2.5 shrink-0" />
-          <div className="flex items-center gap-1.5 text-xs py-0.5">
-            <span className={difficultyColor[card.difficulty]}>{difficultyLabel[card.difficulty]}</span>
-            <span className="text-stone-200">·</span>
-            <button
-              onClick={() => { setShowActions(false); setEditing(true) }}
-              className="text-stone-400"
-            >수정</button>
-            <span className="text-stone-300">|</span>
-            <button
-              onClick={handleDelete}
-              disabled={isDeleting}
-              className="text-stone-400 disabled:opacity-50"
-            >{isDeleting ? '...' : '삭제'}</button>
-            {deleteError && <span className="text-rose-500">{deleteError}</span>}
-          </div>
+        <div style={{ gridColumn: 'span 2' }} className="flex items-center gap-1.5 text-xs py-0.5">
+          <span className={difficultyColor[card.difficulty]}>{difficultyLabel[card.difficulty]}</span>
+          <span className="text-stone-200">·</span>
+          <button onClick={() => { setShowActions(false); setEditing(true) }} className="text-stone-400">수정</button>
+          <span className="text-stone-300">|</span>
+          <button onClick={handleDelete} disabled={isDeleting} className="text-stone-400 disabled:opacity-50">
+            {isDeleting ? '...' : '삭제'}
+          </button>
+          {deleteError && <span className="text-rose-500">{deleteError}</span>}
         </div>
       )}
     </div>

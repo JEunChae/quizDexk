@@ -41,7 +41,7 @@ function parseText(text: string): ParsedCard[] {
     })
 }
 
-export function BulkAddForm({ setId }: { setId: string }) {
+export function BulkAddForm({ setId, onSuccess }: { setId: string; onSuccess?: () => void }) {
   const router = useRouter()
   const supabase = useMemo(() => createClient(), [])
   const [tab, setTab] = useState<'text' | 'csv'>('text')
@@ -80,11 +80,8 @@ export function BulkAddForm({ setId }: { setId: string }) {
     const { error } = await supabase.from('cards').insert(rows)
     setLoading(false)
     if (error) { setError(toKoreanError(error.message, '카드 저장에 실패했습니다')); return }
-    setSuccess(preview.length)
-    setText('')
-    setPreview([])
-    if (fileRef.current) fileRef.current.value = ''
     router.refresh()
+    onSuccess?.()
   }
 
   return (
