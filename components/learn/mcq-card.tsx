@@ -26,7 +26,7 @@ export function MCQCard({ card, allCards, onResult }: {
 
   return (
     <div className="space-y-4">
-      <div className="bg-white rounded-2xl border border-slate-200 p-6 text-xl font-medium text-center text-slate-900 min-h-[100px] flex items-center justify-center">
+      <div className="bg-white rounded-2xl border border-stone-200 p-6 text-xl font-medium text-center text-stone-700 min-h-[100px] flex items-center justify-center">
         {card.front}
       </div>
       <div className="grid grid-cols-2 gap-3">
@@ -37,12 +37,12 @@ export function MCQCard({ card, allCards, onResult }: {
             disabled={submitting}
             className={`p-4 rounded-xl border text-left transition-all ${
               selected === null
-                ? 'bg-white border-slate-200 hover:border-stone-400 text-slate-900'
+                ? 'bg-white border-stone-200 hover:border-stone-400 text-stone-700'
                 : opt === card.back
                   ? 'border-emerald-500 bg-emerald-50 text-emerald-800'
                   : opt === selected
                     ? 'border-rose-500 bg-rose-50 text-rose-800'
-                    : 'bg-white opacity-50 border-slate-200 text-slate-900'
+                    : 'bg-white opacity-50 border-stone-200 text-stone-700'
             }`}
           >
             {opt}

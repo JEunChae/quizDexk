@@ -29,7 +29,7 @@ export function ShortAnswerCard({ card, onResult }: {
 
   return (
     <div className="space-y-4">
-      <div className="bg-white rounded-2xl border border-slate-200 p-6 text-xl font-medium text-center text-slate-900 min-h-[100px] flex items-center justify-center">
+      <div className="bg-white rounded-2xl border border-stone-200 p-6 text-xl font-medium text-center text-stone-700 min-h-[100px] flex items-center justify-center">
         {card.front}
       </div>
       <form onSubmit={handleSubmit} className="flex gap-2">
