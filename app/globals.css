@@ -67,7 +67,7 @@ body {
 }
 
 .btn-primary {
-  background: #5c4a3a;
+  background: #4a4a4a;
   color: #fafaf5;
   border-radius: 3px;
 }
@@ -77,12 +77,12 @@ body {
 
 .btn-secondary {
   background: transparent;
-  color: #5c4a3a;
-  border: 1.5px solid #5c4a3a;
+  color: #4a4a4a;
+  border: 1.5px solid #4a4a4a;
   border-radius: 3px;
 }
 .btn-secondary:active {
-  background: #5c4a3a;
+  background: #4a4a4a;
   color: #fafaf5;
 }
 
