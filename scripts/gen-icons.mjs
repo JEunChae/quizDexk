@@ -13,19 +13,15 @@ function makeSvg(size) {
   const shadowOffset = size * 0.025
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
-  <defs>
-    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
-      <feDropShadow dx="${shadowOffset}" dy="${shadowOffset}" stdDeviation="${shadowOffset * 1.2}" flood-color="rgba(0,0,0,0.18)"/>
-    </filter>
-  </defs>
+  <!-- 전체 배경 (투명 영역 없애기) -->
+  <rect x="0" y="0" width="${size}" height="${size}" fill="#fef08a"/>
 
-  <!-- 포스트잇 본체 -->
+  <!-- 포스트잇 본체 (테두리만) -->
   <rect
     x="${pad}" y="${pad}"
     width="${size - pad * 2}" height="${size - pad * 2}"
     rx="${r}" ry="${r}"
     fill="#fef08a"
-    filter="url(#shadow)"
   />
 
   <!-- 윗줄 (노트 느낌) -->
