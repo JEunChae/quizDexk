@@ -10,7 +10,8 @@ const src = '/Users/jeong-eunchae/.claude/image-cache/d13b7b50-5985-4473-8c32-7b
 async function generate(size, filename) {
   await sharp(src)
     .trim({ background: '#ffffff', threshold: 30 })
-    .resize(size, size, { fit: 'cover' })
+    .resize(size + 48, size + 48, { fit: 'cover' })
+    .extract({ left: 24, top: 24, width: size, height: size })
     .png()
     .toFile(path.join(publicDir, filename))
   console.log(`✓ ${filename} (${size}x${size})`)
