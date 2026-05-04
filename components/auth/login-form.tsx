@@ -5,13 +5,17 @@ import { createClient } from '@/lib/supabase/client'
 import { toKoreanError } from '@/lib/utils/error-message'
 import { useRouter } from 'next/navigation'
 
-function detectEnv(): 'inapp' | 'ios' | 'android' | 'other' {
+function detectEnv(): 'inapp-ios' | 'inapp-android' | 'ios' | 'android' | 'other' {
   if (typeof navigator === 'undefined') return 'other'
   const ua = navigator.userAgent
   const isInApp = /KAKAOTALK|kakaotalk|Instagram|FBAN|FBAV|Line\/|NaverApp|naver_app/i.test(ua)
-  if (isInApp) return 'inapp'
-  if (/iPhone|iPad|iPod/i.test(ua)) return 'ios'
-  if (/Android/i.test(ua)) return 'android'
+  const isIos = /iPhone|iPad|iPod/i.test(ua)
+  const isAndroid = /Android/i.test(ua)
+  if (isInApp && isIos) return 'inapp-ios'
+  if (isInApp && isAndroid) return 'inapp-android'
+  if (isInApp) return 'inapp-android'
+  if (isIos) return 'ios'
+  if (isAndroid) return 'android'
   return 'other'
 }
 
@@ -19,7 +23,7 @@ function InstallGuide() {
   const [prompt, setPrompt] = useState<any>(null)
   const [installed, setInstalled] = useState(false)
   const [showGuide, setShowGuide] = useState(false)
-  const [env, setEnv] = useState<'inapp' | 'ios' | 'android' | 'other'>('other')
+  const [env, setEnv] = useState<'inapp-ios' | 'inapp-android' | 'ios' | 'android' | 'other'>('other')
 
   useEffect(() => {
     setEnv(detectEnv())
@@ -44,8 +48,20 @@ function InstallGuide() {
     return <p className="mt-6 text-center text-xs text-stone-400">설치 완료 ✓</p>
   }
 
-  // 카카오톡·인앱 브라우저: Chrome으로 열도록 안내
-  if (env === 'inapp') {
+  // 카카오톡 iOS: Safari로 열기 안내
+  if (env === 'inapp-ios') {
+    return (
+      <div className="mt-6 text-center">
+        <p className="text-xs text-stone-400">
+          앱 설치는 <span className="text-stone-600 font-semibold">Safari</span>에서 가능합니다
+        </p>
+        <p className="text-xs text-stone-300 mt-1">우측 하단 공유 버튼 → Safari로 열기</p>
+      </div>
+    )
+  }
+
+  // 카카오톡 Android: Chrome으로 열기 안내
+  if (env === 'inapp-android') {
     return (
       <div className="mt-6 text-center">
         <p className="text-xs text-stone-400">
@@ -98,7 +114,7 @@ function InstallGuide() {
           <div className="mt-3 text-left text-xs text-stone-500 border border-stone-200 rounded p-4 space-y-3">
             <div>
               <p className="font-semibold text-stone-600 mb-1">iPhone · iPad (Safari)</p>
-              <p>하단 공유 버튼 <span className="font-mono">□↑</span> → <span className="text-stone-700">홈 화면에 추가</span></p>
+              <p>하단 <span className="text-stone-700">공유 버튼</span> → <span className="text-stone-700">홈 화면에 추가</span></p>
             </div>
             <p className="text-stone-400 pt-1 border-t border-stone-100">설치 후 주소창 없이 앱처럼 실행됩니다.</p>
           </div>
