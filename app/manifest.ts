@@ -2,8 +2,8 @@ import type { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'quizDeck',
-    short_name: 'quizDeck',
+    name: 'QuizDeck',
+    short_name: 'QuizDeck',
     description: '플래시카드 기반 학습 앱',
     start_url: '/',
     scope: '/',

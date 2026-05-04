@@ -50,7 +50,7 @@ export function SignupForm() {
   return (
     <div className="w-full max-w-sm">
       <div className="text-center mb-10">
-        <h1 className="text-4xl font-bold text-stone-800">quizDeck</h1>
+        <h1 className="text-4xl font-bold text-stone-800">QuizDeck</h1>
         <p className="text-stone-400 mt-2 text-base">나만의 단어장</p>
       </div>
       <form onSubmit={handleSubmit} className="space-y-6" autoComplete="off">

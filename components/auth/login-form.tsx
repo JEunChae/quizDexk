@@ -52,7 +52,7 @@ function InstallGuide() {
     return (
       <div className="mt-6 text-center space-y-1">
         <p className="text-xs text-stone-500">설치 완료 ✓</p>
-        <p className="text-xs text-stone-400">홈 화면의 quizDeck 아이콘을 눌러 시작하세요</p>
+        <p className="text-xs text-stone-400">홈 화면의 QuizDeck 아이콘을 눌러 시작하세요</p>
       </div>
     )
   }
@@ -165,7 +165,7 @@ export function LoginForm() {
             transform: 'rotate(-1.5deg)',
             borderRadius: '1px',
           }}
-        >quizDeck</h1>
+        >QuizDeck</h1>
         <p className="text-stone-400 mt-2 text-base">나만의 단어장</p>
       </div>
       <form onSubmit={handleSubmit} className="space-y-6">

@@ -13,13 +13,13 @@ const memoment = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'quizDeck',
+  title: 'QuizDeck',
   description: '플래시카드 기반 학습 앱',
   manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'quizDeck',
+    title: 'QuizDeck',
   },
   other: {
     'mobile-web-app-capable': 'yes',
@@ -48,7 +48,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
               borderRadius: '1px',
             }}
           >
-            quizDeck
+            QuizDeck
           </Link>
           <div className="flex items-center text-stone-500" style={{ fontSize: 'clamp(0.72rem, 2.5vw, 1rem)', gap: 'clamp(0.5rem, 3vw, 1.25rem)' }}>
             <Link href="/explore" className="hover:text-stone-900 transition-colors whitespace-nowrap" aria-label="탐색">
