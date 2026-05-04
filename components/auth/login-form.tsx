@@ -51,7 +51,7 @@ function InstallGuide() {
         <p className="text-xs text-stone-400">
           앱 설치는 <span className="text-stone-600 font-semibold">Chrome</span>에서 가능합니다
         </p>
-        <p className="text-xs text-stone-300 mt-1">우측 상단 ··· → Chrome으로 열기</p>
+        <p className="text-xs text-stone-300 mt-1">좌측 하단 Chrome으로 열기 버튼을 눌러주세요</p>
       </div>
     )
   }
