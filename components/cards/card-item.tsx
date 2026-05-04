@@ -80,7 +80,7 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
         className="flex items-center gap-2.5 cursor-pointer"
       >
         <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 shrink-0 block mt-[0.35rem]" />
-        <span className="font-en font-bold text-slate-800 whitespace-nowrap">{card.front}</span>
+        <span className="font-en font-bold text-stone-700 whitespace-nowrap">{card.front}</span>
         {lang && (
           <button
             onClick={e => { e.stopPropagation(); speak(card.front, lang) }}
@@ -94,7 +94,7 @@ export function CardItem({ card, onUpdate, onDelete }: CardItemProps) {
       <span
         role="button"
         onClick={() => setShowActions(v => !v)}
-        className="font-ko text-slate-700 whitespace-nowrap cursor-pointer"
+        className="font-ko text-stone-500 whitespace-nowrap cursor-pointer"
       >{card.back}</span>
 
       {showActions && (

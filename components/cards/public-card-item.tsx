@@ -42,14 +42,14 @@ function PublicCardItem({ card }: { card: Card }) {
     <div style={{ display: 'contents' }}>
       <div className="flex items-center gap-2.5">
         <span className="w-2.5 h-2.5 rounded-full border-2 border-slate-400 shrink-0 block mt-[0.35rem]" />
-        <span className="font-en font-bold text-slate-800 whitespace-nowrap">{card.front}</span>
+        <span className="font-en font-bold text-stone-700 whitespace-nowrap">{card.front}</span>
         {lang && (
           <button onClick={speak} className="text-slate-500 shrink-0" aria-label="발음 듣기">
             <SpeakerIcon />
           </button>
         )}
       </div>
-      <span className="font-ko text-slate-700 whitespace-nowrap">{card.back}</span>
+      <span className="font-ko text-stone-500 whitespace-nowrap">{card.back}</span>
     </div>
   )
 }
