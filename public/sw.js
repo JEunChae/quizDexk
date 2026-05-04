@@ -1,4 +1,4 @@
-const CACHE = 'quizdeck-v1'
+const CACHE = 'quizdeck-v2'
 
 const STATIC = [
   '/',
