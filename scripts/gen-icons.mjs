@@ -6,11 +6,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const publicDir = path.join(__dirname, '..', 'public')
 const src = '/Users/jeong-eunchae/.claude/image-cache/d13b7b50-5985-4473-8c32-7b2452fd73d9/7.png'
 
-// 흰 배경 제거, 로고 영역만 크롭
+// 흰 배경 trim → 크래프트 배경색으로 정사각형 채우기
 async function generate(size, filename) {
   await sharp(src)
-    .extract({ left: 282, top: 50, width: 460, height: 460 })
-    .resize(size, size)
+    .trim({ background: '#ffffff', threshold: 30 })
+    .resize(size, size, { fit: 'contain', background: { r: 210, g: 176, b: 131 } })
     .png()
     .toFile(path.join(publicDir, filename))
   console.log(`✓ ${filename} (${size}x${size})`)
