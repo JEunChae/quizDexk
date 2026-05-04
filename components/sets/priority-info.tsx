@@ -8,7 +8,8 @@ export function PriorityInfo() {
     <span className="relative inline-flex items-center">
       <button
         onClick={() => setOpen(o => !o)}
-        className="text-stone-600 text-xs ml-1 leading-none font-bold"
+        className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full bg-amber-400 text-white font-bold leading-none"
+        style={{ fontSize: '0.6rem' }}
         aria-label="학습 순서 기준 보기"
       >
         !
