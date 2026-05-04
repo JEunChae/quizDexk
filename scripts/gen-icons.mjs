@@ -4,13 +4,13 @@ import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const publicDir = path.join(__dirname, '..', 'public')
-const src = '/Users/jeong-eunchae/.claude/image-cache/d13b7b50-5985-4473-8c32-7b2452fd73d9/5.png'
+const src = '/Users/jeong-eunchae/.claude/image-cache/d13b7b50-5985-4473-8c32-7b2452fd73d9/7.png'
 
-// VOCABULARY Q 헤더 + Q 전체 크롭, 노트 배경색으로 패딩해 정사각형
+// 흰 배경 제거, 로고 영역만 크롭
 async function generate(size, filename) {
   await sharp(src)
-    .extract({ left: 0, top: 22, width: 474, height: 660 })
-    .resize(size, size, { fit: 'contain', background: { r: 245, g: 240, b: 225, alpha: 1 } })
+    .extract({ left: 282, top: 50, width: 460, height: 460 })
+    .resize(size, size)
     .png()
     .toFile(path.join(publicDir, filename))
   console.log(`✓ ${filename} (${size}x${size})`)
