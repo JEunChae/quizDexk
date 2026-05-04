@@ -114,7 +114,7 @@ function InstallGuide() {
           <div className="mt-3 text-left text-xs text-stone-500 border border-stone-200 rounded p-4 space-y-3">
             <div>
               <p className="font-semibold text-stone-600 mb-1">iPhone · iPad (Safari)</p>
-              <p>하단 <span className="text-stone-700">공유 버튼</span> → <span className="text-stone-700">홈 화면에 추가</span></p>
+              <p><span className="text-stone-700">···</span> → <span className="text-stone-700">공유</span> → <span className="text-stone-700">홈 화면에 추가</span></p>
             </div>
             <p className="text-stone-400 pt-1 border-t border-stone-100">설치 후 주소창 없이 앱처럼 실행됩니다.</p>
           </div>
