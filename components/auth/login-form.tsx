@@ -26,6 +26,10 @@ function InstallGuide() {
   const [env, setEnv] = useState<'inapp-ios' | 'inapp-android' | 'ios' | 'android' | 'other'>('other')
 
   useEffect(() => {
+    const isStandalone =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      ('standalone' in navigator && (navigator as any).standalone === true)
+    if (isStandalone) return
     setEnv(detectEnv())
     const handler = (e: Event) => {
       e.preventDefault()
