@@ -45,7 +45,12 @@ function InstallGuide() {
   }
 
   if (installed) {
-    return <p className="mt-6 text-center text-xs text-stone-400">설치 완료 ✓</p>
+    return (
+      <div className="mt-6 text-center space-y-1">
+        <p className="text-xs text-stone-500">설치 완료 ✓</p>
+        <p className="text-xs text-stone-400">홈 화면의 quizDeck 아이콘을 눌러 시작하세요</p>
+      </div>
+    )
   }
 
   // 카카오톡 iOS: Safari로 열기 안내
